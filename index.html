@@ -1,0 +1,2265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>her.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Noto+Serif+Devanagari:wght@300;400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#07060a;--bg2:#0d0a10;--dust:#c4a882;--rose:#b87070;--pale:#ede4d8;--dim:#6e6058;--dimmer:#3d3530;--faint:rgba(196,168,130,0.06);--faint2:rgba(184,112,112,0.08)}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--pale);font-family:'EB Garamond',Georgia,serif;cursor:none;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+.cur{position:fixed;width:7px;height:7px;background:var(--dust);border-radius:50%;pointer-events:none;z-index:9999;mix-blend-mode:difference}
+.cur-r{position:fixed;width:28px;height:28px;border:1px solid rgba(196,168,130,.35);border-radius:50%;pointer-events:none;z-index:9998;transition:left .38s cubic-bezier(.25,.46,.45,.94),top .38s cubic-bezier(.25,.46,.45,.94)}
+body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.05'/%3E%3C/svg%3E");pointer-events:none;z-index:9990;opacity:.5}
+#particles{position:fixed;inset:0;pointer-events:none;z-index:1}
+section,.band,.raw-s,.hindi-s,.photo-s,.dv{position:relative;z-index:2}
+
+/* REVEAL */
+.reveal{opacity:0;transform:translateY(22px);transition:opacity .9s ease,transform .9s ease}
+.reveal.on{opacity:1;transform:none}
+.rslow{opacity:0;transition:opacity 1.4s ease .2s}
+.rslow.on{opacity:1}
+
+/* HERO */
+.hero{height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 65% 55% at 50% 60%,rgba(130,55,55,.14) 0%,transparent 70%);pointer-events:none}
+.hero-eye{font-family:'Cormorant Garamond',serif;font-size:clamp(.65rem,1.4vw,.85rem);letter-spacing:.45em;color:var(--dim);text-transform:uppercase;opacity:0;animation:fadeUp 1.2s ease .3s forwards}
+.hero-title{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(4.8rem,21vw,17rem);line-height:.82;letter-spacing:-.02em;opacity:0;animation:fadeUp 1.4s ease .7s forwards}
+.hero-title em{display:block;font-style:italic;color:var(--rose);font-size:.52em;letter-spacing:.06em;margin-top:.12em}
+.hero-vline{width:1px;height:0;background:linear-gradient(to bottom,var(--dust),transparent);margin:2.5rem auto 2rem;animation:growLine 1.5s ease 1.6s forwards}
+.hero-sub{font-style:italic;font-size:clamp(1rem,2vw,1.25rem);color:var(--dim);max-width:440px;line-height:2;opacity:0;animation:fadeUp 1.2s ease 1.9s forwards}
+.hero-sub span{display:block;font-size:.78em;letter-spacing:.08em;margin-top:.8rem;color:var(--dimmer)}
+.scroll-h{position:absolute;bottom:2.2rem;left:50%;transform:translateX(-50%);font-size:.65rem;letter-spacing:.35em;color:var(--dimmer);text-transform:uppercase;opacity:0;animation:fadeUp 1s ease 2.6s forwards}
+.scroll-h::after{content:'';display:block;width:1px;height:28px;background:var(--dimmer);margin:.7rem auto 0;animation:pulse 2s ease infinite}
+
+/* BANDS */
+.band{padding:5rem 2rem;text-align:center;border-top:1px solid rgba(196,168,130,.09);border-bottom:1px solid rgba(196,168,130,.09)}
+.band.rb{background:linear-gradient(180deg,transparent,rgba(130,55,55,.07),transparent)}
+.band.db{background:linear-gradient(180deg,transparent,rgba(196,168,130,.04),transparent)}
+.band p{font-family:'Cormorant Garamond',serif;font-size:clamp(1.5rem,3.8vw,2.8rem);font-style:italic;font-weight:300;color:var(--dust);max-width:820px;margin:0 auto;line-height:1.55}
+
+/* LABEL */
+.slabel{font-size:.65rem;letter-spacing:.48em;text-transform:uppercase;color:var(--dim);margin-bottom:3.5rem;display:flex;align-items:center;gap:1.5rem}
+.slabel::after{content:'';flex:1;height:1px;background:linear-gradient(to right,rgba(196,168,130,.25),transparent)}
+
+/* LOVE LIST */
+.love-wrap{padding:8rem 2rem;max-width:680px;margin:0 auto}
+.love-intro{font-size:clamp(.95rem,2vw,1.2rem);font-style:italic;color:var(--dim);line-height:2.1;margin-bottom:4rem}
+.love-list{list-style:none}
+.love-list li{font-family:'Cormorant Garamond',serif;font-size:clamp(1.2rem,2.7vw,1.8rem);font-weight:300;padding:.55rem 0;border-bottom:1px solid rgba(196,168,130,.07);display:flex;align-items:baseline;gap:1rem;transition:color .4s,padding-left .4s;cursor:default;opacity:0;transform:translateY(14px)}
+.love-list li.on{animation:fadeUp .65s ease forwards}
+.love-list li::before{content:'—';color:var(--rose);font-size:.75em;opacity:.55;flex-shrink:0}
+.love-list li:hover{color:var(--dust);padding-left:.4rem}
+.love-list li.big{font-style:italic;font-size:clamp(2rem,5vw,3.2rem);color:var(--rose);border-bottom:none;margin-top:1.2rem}
+.love-list li.big::before{display:none}
+
+/* PHOTOS */
+.photo-s{padding:3rem 2rem 5rem;display:flex;justify-content:center;gap:1.8rem;flex-wrap:wrap}
+.pf{width:200px;aspect-ratio:3/4;border:1px solid rgba(196,168,130,.13);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:.9rem;color:var(--dimmer);font-size:.65rem;letter-spacing:.22em;text-transform:uppercase;background:rgba(196,168,130,.018);position:relative;overflow:hidden;transition:border-color .5s}
+.pf:hover{border-color:rgba(196,168,130,.28)}
+.pf .c{position:absolute;width:14px;height:14px;border-color:rgba(196,168,130,.25);border-style:solid}
+.pf .c.tl{top:7px;left:7px;border-width:1px 0 0 1px}
+.pf .c.tr{top:7px;right:7px;border-width:1px 1px 0 0}
+.pf .c.bl{bottom:7px;left:7px;border-width:0 0 1px 1px}
+.pf .c.br{bottom:7px;right:7px;border-width:0 1px 1px 0}
+.pf svg{opacity:.18;width:28px}
+
+/* POETRY */
+.poetry{padding:5rem 2rem 7rem;max-width:620px;margin:0 auto}
+.poem{margin-bottom:7rem}
+.pnum{font-size:.62rem;letter-spacing:.42em;color:var(--dim);text-transform:uppercase;margin-bottom:1.6rem}
+.poem p{font-family:'Cormorant Garamond',serif;font-size:clamp(1.1rem,2.5vw,1.55rem);font-weight:300;line-height:1.95;color:var(--pale)}
+.poem p+p{margin-top:.1rem}
+.gap{display:block;height:1em}
+.poem.ita p{font-style:italic;color:var(--dust)}
+.poem.large p{font-size:clamp(1.5rem,3.8vw,2.3rem);color:var(--rose);font-style:italic}
+.poem.dlg{background:var(--faint);border-left:1px solid rgba(196,168,130,.18);padding:2rem 2.5rem}
+.poem.dlg p{font-style:italic;color:var(--dust)}
+.poem.raw{background:var(--faint2);padding:2.5rem}
+.poem.raw p{font-style:normal;font-size:clamp(1rem,2.2vw,1.35rem);line-height:2}
+.poem.raw .shout{font-size:clamp(.95rem,1.9vw,1.25rem);letter-spacing:.04em;color:var(--rose);font-weight:600;font-style:normal;font-family:'Cormorant Garamond',serif}
+.poem.ctr{text-align:center}
+.poem.ctr p{color:var(--dust)}
+.dim-p{color:var(--dim)!important;font-style:italic!important}
+
+/* HINDI */
+.hindi-s{padding:7rem 2rem;max-width:680px;margin:0 auto;text-align:center}
+.hindi-s .slabel{justify-content:center}
+.hindi-s .slabel::after{display:none}
+.hl{font-family:'Noto Serif Devanagari','EB Garamond',serif;font-size:clamp(1.3rem,3vw,2rem);font-weight:300;color:var(--dust);line-height:2.1;margin-bottom:3rem}
+.hl.big{font-size:clamp(1.6rem,4vw,2.5rem);color:var(--rose);font-style:italic}
+.urdu-l{font-family:'EB Garamond',serif;font-size:clamp(1.1rem,2.4vw,1.55rem);font-style:italic;color:var(--pale);line-height:2.1;margin-bottom:.3rem}
+.urdu-t{font-size:clamp(.78rem,1.4vw,.95rem);color:var(--dim);font-style:italic;line-height:1.8;margin-bottom:2.5rem}
+
+/* INTERLUDE */
+.interlude{padding:6rem 2rem;text-align:center}
+.interlude p{font-family:'Cormorant Garamond',serif;font-size:clamp(1rem,2.3vw,1.5rem);font-weight:300;font-style:italic;color:var(--dim);max-width:640px;margin:0 auto;line-height:2.1}
+.interlude p strong{color:var(--pale);font-weight:400;font-style:normal}
+
+/* DIVIDER */
+.dv{display:flex;align-items:center;gap:2rem;max-width:560px;margin:0 auto;padding:0 2rem;opacity:.18}
+.dv::before,.dv::after{content:'';flex:1;height:1px;background:var(--dust)}
+.dv span{font-size:.55rem;letter-spacing:.4em;color:var(--dust);text-transform:uppercase}
+
+/* PROGRESS */
+#prog{position:fixed;top:0;left:0;height:1.5px;background:linear-gradient(to right,var(--rose),var(--dust));width:0%;z-index:9995;pointer-events:none}
+
+/* BREATHING */
+@keyframes breathe{0%,100%{opacity:.15;-webkit-text-stroke-color:rgba(196,123,123,.15)}50%{opacity:.4;-webkit-text-stroke-color:rgba(196,123,123,.38)}}
+.closing-ghost{animation:breathe 4.5s ease-in-out infinite!important}
+.rslow.on{opacity:1!important}
+
+/* SOUND */
+#snd{position:fixed;bottom:2rem;right:2rem;z-index:9994;background:none;border:1px solid rgba(196,168,130,.18);color:var(--dim);font-family:'EB Garamond',serif;font-size:.72rem;font-style:italic;letter-spacing:.2em;padding:.55rem 1rem;cursor:none;-webkit-tap-highlight-color:transparent;transition:border-color .4s,color .4s}
+#snd:hover{border-color:rgba(196,168,130,.4);color:var(--dust)}
+
+/* ORIGIN */
+.origin{padding:7rem 2rem;max-width:680px;margin:0 auto}
+.origin-title{font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,5vw,3.5rem);font-weight:300;font-style:italic;color:var(--rose);line-height:1.1;margin-bottom:.4rem}
+.origin-title.big{font-size:clamp(2.8rem,7vw,5rem)}
+.origin-sub{font-size:.63rem;letter-spacing:.4em;color:var(--dim);text-transform:uppercase;margin-bottom:3.5rem}
+.origin p{font-family:'Cormorant Garamond',serif;font-size:clamp(1.05rem,2.3vw,1.45rem);font-weight:300;line-height:2.1;color:var(--pale);margin-bottom:1rem}
+.origin .badge{display:inline-block;font-size:.63rem;letter-spacing:.35em;text-transform:uppercase;color:var(--rose);border:1px solid rgba(184,112,112,.22);padding:.3rem .9rem;margin-bottom:3rem}
+.origin .stat{display:flex;align-items:baseline;gap:1.2rem;margin:3rem 0;border-top:1px solid rgba(196,168,130,.08);padding-top:2.5rem}
+.origin .stat-n{font-family:'Cormorant Garamond',serif;font-size:clamp(3rem,8vw,5rem);font-weight:300;color:transparent;-webkit-text-stroke:1px var(--rose);line-height:1}
+.origin .stat-l{font-size:.68rem;letter-spacing:.28em;color:var(--dim);text-transform:uppercase;line-height:1.9}
+
+/* TIMESTAMP */
+.ts{display:block;font-size:.58rem;letter-spacing:.38em;color:var(--dimmer);text-transform:uppercase;margin-bottom:1.2rem;font-style:italic}
+
+/* ART OF STAYING SPECIAL */
+.staying-hero{padding:7rem 2rem;text-align:center;max-width:680px;margin:0 auto}
+.staying-title{font-family:'Cormorant Garamond',serif;font-size:clamp(2.2rem,6vw,4.5rem);font-weight:300;font-style:italic;color:var(--dust);line-height:1.15;margin-bottom:1.2rem}
+.staying-sub{font-size:clamp(.85rem,1.8vw,1.05rem);font-style:italic;color:var(--dim);line-height:2;max-width:480px;margin:0 auto}
+
+/* CLOSING */
+.closing{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:4rem 2rem}
+.closing::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 50% 45% at 50% 50%,rgba(130,55,55,.1) 0%,transparent 70%);pointer-events:none}
+.closing-ghost{font-family:'Cormorant Garamond',serif;font-size:clamp(5rem,18vw,15rem);font-weight:300;font-style:italic;color:transparent;-webkit-text-stroke:1px rgba(196,123,123,.2);letter-spacing:-.02em;line-height:1;user-select:none;margin:2rem 0}
+.closing-text{font-family:'Cormorant Garamond',serif;font-size:clamp(1rem,2.2vw,1.4rem);font-weight:300;font-style:italic;color:var(--dim);max-width:500px;line-height:2.3}
+.closing-last{font-size:clamp(.65rem,1.2vw,.85rem);letter-spacing:.22em;color:var(--dimmer);margin-top:3rem;text-transform:uppercase}
+
+/* LETTER */
+.letter-section{padding:7rem 2rem;background:linear-gradient(180deg,transparent,rgba(196,168,130,.03),transparent)}
+.letter-wrap{max-width:620px;margin:0 auto}
+.letter-date{font-size:.62rem;letter-spacing:.3em;color:var(--dimmer);text-transform:uppercase;margin-bottom:3rem;font-style:italic}
+.letter-body{border:1px solid rgba(196,168,130,.12);padding:3rem 3.5rem;position:relative;background:rgba(196,168,130,.015)}
+.letter-body::before{content:'"';position:absolute;top:-1.5rem;left:2.5rem;font-family:"Cormorant Garamond",serif;font-size:5rem;color:rgba(196,168,130,.12);line-height:1}
+.letter-salutation{font-family:"Cormorant Garamond",serif;font-size:clamp(1.3rem,2.5vw,1.7rem);color:var(--dust);margin-bottom:2rem;font-style:italic}
+.letter-body p{font-family:"Cormorant Garamond",serif;font-size:clamp(1rem,2.2vw,1.35rem);font-weight:300;line-height:2.1;color:var(--pale);margin-bottom:1.5rem}
+.letter-sign{color:var(--dim)!important;font-style:italic!important;margin-top:2.5rem!important;border-top:1px solid rgba(196,168,130,.1);padding-top:1.5rem}
+.letter-note{font-size:.8rem;font-style:italic;color:var(--dimmer);margin-top:2rem;line-height:1.9;text-align:center}
+
+/* ACROSTIC */
+.acro-l{font-family:"Cormorant Garamond",serif;font-size:1.15em;color:var(--rose);font-weight:400;font-style:italic;display:inline-block;width:1.1em}
+
+/* NIDA WATERMARK */
+.nida-wm{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:"Cormorant Garamond",serif;font-weight:300;font-style:italic;font-size:clamp(8rem,28vw,22rem);color:transparent;-webkit-text-stroke:1px rgba(196,168,130,.035);letter-spacing:.15em;pointer-events:none;user-select:none;z-index:0;line-height:1}
+.closing>*:not(.nida-wm){position:relative;z-index:1}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+@keyframes growLine{from{height:0}to{height:75px}}
+@keyframes pulse{0%,100%{opacity:.2}50%{opacity:1}}
+</style>
+</head>
+<body>
+
+<div id="prog"></div>
+<div class="cur" id="cur"></div>
+<div class="cur-r" id="ring"></div>
+<canvas id="particles"></canvas>
+<button id="snd">&#9833; sound</button>
+
+<!-- HERO -->
+<section class="hero">
+  <p class="hero-eye">a private universe</p>
+  <h1 class="hero-title">her<em>always. only. her.</em></h1>
+  <div class="hero-vline"></div>
+  <p class="hero-sub">"uski ho vo hasi, gunje jo mera ghar"<span>— a game, a name, and no going back —</span></p>
+  <div class="scroll-h">scroll</div>
+</section>
+
+<!-- BAND 1 -->
+<div class="band rb reveal">
+  <p>She didn't just walk into my life. She crashed into it — through a game screen, a silent mic, and a name only I was allowed to give her.</p>
+</div>
+
+<!-- ORIGIN STORY -->
+<div class="origin">
+  <p class="origin-sub">how it began</p>
+  <span class="ts reveal">somewhere in 2024 · Free Fire · a friend group lobby</span>
+  <h2 class="origin-title reveal">we met in a game.<br>we were never supposed to.</h2>
+
+  <div class="badge reveal">Free Fire — Dynamic Duo</div>
+
+  <div class="reveal">
+    <p>It wasn't some grand, cinematic meeting. No slow motion. No dramatic lighting. Just a friend group lobby in Free Fire, a bunch of strangers, and her — somewhere in the middle of all that noise, quietly existing. I didn't use a mic back then. Too awkward. Too afraid. So we never actually spoke. We just played. Side by side. Two people who didn't know yet that they were already becoming something.</p>
+  </div>
+
+  <div class="reveal">
+    <p>After the game, we exchanged Instagrams. Some messages. The kind that feel casual until you read them again at 2am and realize — nothing about this was casual. And then, without warning, she was gone. Blocked. Unfriended from the game. No explanation. No goodbye. Just — absence, where she used to be.</p>
+  </div>
+
+  <div class="reveal">
+    <p>I told myself it didn't matter. That it was just a game. That I barely knew her. And then the universe, with its terrible sense of humor, put her in another friend group I was in. There she was again. And I think she remembered me — because something in her eyes shifted the moment we were in the same space. Like a song you forgot you knew, starting to play.</p>
+  </div>
+
+  <div class="reveal">
+    <p>This time, we actually talked. Really talked. She told me things. I told her things. The kind of things you don't say unless someone makes you feel safe enough to. We'd stay up way too late — not because either of us planned to, but because neither of us wanted to be the first to say goodnight. She'd send voice notes at odd hours. I'd reply with paragraphs. She'd respond with one line that somehow said more than everything I'd written. That was her. That was always her.</p>
+  </div>
+
+  <div class="reveal">
+    <p>I named her <em>Proo</em> — her first alias, the name only I had for her — and it felt like I was claiming a small piece of her that the world didn't get to touch.</p>
+  </div>
+
+  <div class="stat reveal">
+    <span class="stat-n" id="statCount">0</span>
+    <span class="stat-l">mini-breakups<br>in a few months.<br>5 to 10 days each.<br>and every time,<br>we came back.</span>
+  </div>
+
+  <div class="reveal">
+    <p>We became a Dynamic Duo. That's what the game calls it when two people keep choosing each other, keep surviving together, keep showing up. And we did. Over and over. Even through the little breakups — those ridiculous, heartbreaking, five-to-ten-day silences that came out of nowhere and ended just as suddenly. The Dynamic Duo badge would reset. And we'd rebuild it. Every single time.</p>
+  </div>
+
+  <div class="reveal">
+    <p>I used to think we were just bad at this. Now I think we were just too real for anything simple.</p>
+  </div>
+
+  <div class="reveal">
+    <p style="color:var(--dim);font-style:italic">She was childish in the best way — the way that makes ordinary Tuesday evenings feel like the kind of memory you'll want back someday. She didn't know how to be anything other than completely, dangerously herself. And I — I didn't know how to be anywhere other than right next to her.</p>
+  </div>
+
+</div>
+
+<!-- WARM SECTION -->
+<div class="origin" style="padding-top:2rem;padding-bottom:0;border-top:1px solid rgba(196,168,130,.06)">
+  <p class="origin-sub" style="margin-bottom:2.5rem">before it got complicated</p>
+
+  <div class="reveal">
+    <p>She was childish in the best possible way. Not immature — just untouched by the part of growing up that makes people stop playing. She could turn a regular game night into the funniest two hours of your week without even trying. She had this way of reacting to things — dramatic, genuine, completely unfiltered — that made you want to keep talking just to see what she'd say next.</p>
+  </div>
+
+  <div class="reveal">
+    <p>There was this thing she did when something was genuinely funny — she'd go quiet first. Like she was trying to hold it in. And then it would just break out of her and she'd laugh too hard and too long and sometimes get embarrassed about how much she laughed. I loved that. I loved that the most.</p>
+  </div>
+
+  <div class="reveal">
+    <p>I called her <em>Proo.</em> Her first alias. The name I gave her before I even understood why I was the one naming her things. Before I knew that naming something is just another way of saying — <em>you're mine to keep.</em></p>
+  </div>
+
+  <div class="reveal">
+    <p style="color:var(--dim);font-style:italic">And for a little while, the world was just the two of us, playing a game, sharing a screen, choosing each other over and over — the way people do before they realize what they're doing, before it becomes something too heavy to hold casually.</p>
+  </div>
+</div>
+
+<!-- WHO SHE IS -->
+<div class="origin" style="padding-top:2rem;padding-bottom:3rem;border-top:1px solid rgba(196,168,130,.06)">
+  <p class="origin-sub" style="margin-bottom:2.5rem">who she actually is</p>
+
+  <div class="reveal">
+    <p>She is the kind of person who makes you feel like the conversation just started, even when it's been hours. She doesn't perform. She doesn't try to be interesting. She just — is. Completely, uncomplicatedly herself, in a way that most people spend their whole lives trying to unlearn.</p>
+  </div>
+
+  <div class="reveal">
+    <p>She gets dramatic about small things. Not in an exhausting way — in the way that makes small things feel like events worth caring about. A bad game round. A stupid argument. Something funny that happened that she can't stop bringing up. She commits to the moment entirely. No half-presence. No phone-checking-while-you-talk. When she's in, she's in.</p>
+  </div>
+
+  <div class="reveal">
+    <p>She's funny without trying. The kind of funny that comes from being honest instead of performative — she'll say the exact true thing at the exact wrong moment and you'll laugh before you've even processed it. And then she'll look at you like she didn't even mean to be funny, which makes it worse.</p>
+  </div>
+
+  <div class="reveal">
+    <p style="color:var(--dim);font-style:italic">She's also stubborn. She'll dig into a position she knows is wrong just because she doesn't want to be the one to back down first. We'd break up over the most ridiculous things — five days here, ten days there — and it was always somehow both our faults and neither of our faults. She's infuriating. She's perfect. She is somehow both at the same time, always.</p>
+  </div>
+</div>
+
+<!-- LOVE LIST -->
+<div class="love-wrap">
+  <p class="slabel">everything I keep</p>
+  <p class="love-intro reveal">I can't explain the whole of you.<br>So I learned to love you in pieces —<br>and somehow that made you feel even more infinite.</p>
+  <ul class="love-list" id="loveList">
+    <li>her without makeup</li>
+    <li>her laugh that fills the whole room</li>
+    <li>her communicating — even when the words were hard</li>
+    <li>her playful attitude that made ordinary things feel like events</li>
+    <li>her adorable smile — the small one, not the posed one</li>
+    <li>her delicate hands and how they moved when she talked</li>
+    <li>her beautiful eyes that said things before she did</li>
+    <li>her with makeup — like art deciding to walk</li>
+    <li>her perfect face at 3am in bad lighting</li>
+    <li>her mannerisms — the ones she probably didn't notice</li>
+    <li>her personality — complicated, warm, real</li>
+    <li>her eyelashes casting small shadows on her cheeks</li>
+    <li>her structure — like someone drew her very carefully</li>
+    <li>her long hair and what she did with it when nervous</li>
+    <li>her glances — the ones that were only ever for me</li>
+    <li>her humor that caught me completely off guard</li>
+    <li>her height — the way she fit into spaces</li>
+    <li>her voice — a sound I still hear in quiet rooms</li>
+    <li>her teeth when she laughed too hard to care</li>
+    <li>her style — effortless and entirely her</li>
+    <li>her lips mid-sentence saying something I always forgot to reply to</li>
+    <li>her silences — which were never empty</li>
+    <li>her presence — how a room changed when she entered it</li>
+    <li class="big">her.</li>
+  </ul>
+</div>
+
+
+
+<div class="dv"><span>∗</span></div>
+
+<!-- PIVOT BAND - the fall begins -->
+<div class="band rb reveal">
+  <p>Some nights, I still whisper your name — just to make sure it still does what it does to me.</p>
+  <small style="font-size:.6em;letter-spacing:.25em;color:var(--dim)">it does.</small>
+</div>
+
+<!-- POETRY I -->
+<section class="poetry">
+  <p class="slabel">fragments</p>
+
+  <div class="poem large reveal">
+    <div class="pnum">I</div>
+    <p>I still wake up thinking I need to tell you things.</p>
+    <p>And every time I remember I can't,</p>
+    <p>something inside me folds in on itself a little tighter.</p>
+  </div>
+
+  <div class="poem reveal">
+    <div class="pnum">II</div>
+    <p>I may look like I have it all together,</p>
+    <p>but one hug from you</p>
+    <p>and I'll completely break down.</p>
+  </div>
+
+  <div class="poem ita reveal">
+    <div class="pnum">III</div>
+    <p>maybe I'm delusional,</p>
+    <p>but I like to believe</p>
+    <p>good things</p>
+    <p>are choosing me too.</p>
+  </div>
+
+  <div class="poem reveal">
+    <div class="pnum">IV</div>
+    <p>we knew</p>
+    <p>too early</p>
+    <p>and still</p>
+    <p>too late</p>
+    <p>what we were —</p>
+    <p>something</p>
+    <p>that could feel like home</p>
+    <p>but never</p>
+    <p>be lived in.</p>
+  </div>
+
+  <div class="poem reveal">
+    <div class="pnum">V</div>
+    <p>I still look for the place</p>
+    <p>where <em>'you'</em> stopped being part of <em>'we'</em>.</p>
+    <span class="gap"></span>
+    <p>I've been looking for a long time.</p>
+    <p>I'm not sure I want to find it.</p>
+  </div>
+
+  <div class="poem dlg reveal">
+    <div class="pnum">VI</div>
+    <p>The first time she heard my voice,</p>
+    <p>she laughed — not at me,</p>
+    <p>just at the fact that I'd been there this whole time,</p>
+    <p>silent, hiding behind a mic I never turned on.</p>
+    <span class="gap"></span>
+    <p>"You never talk," she said.</p>
+    <span class="gap"></span>
+    <p>"I talk to you," I said.</p>
+    <span class="gap"></span>
+    <p>She didn't reply for a moment.</p>
+    <p>That moment was everything.</p>
+  </div>
+
+  <div class="poem reveal">
+    <div class="pnum">VII</div>
+    <p>A quiet meridian passes through me.</p>
+    <p>One side still orbiting your gravity.</p>
+    <p>The other,</p>
+    <p>learning the slow art</p>
+    <p>of returning to itself.</p>
+    <span class="gap"></span>
+    <p>I suppose in the end,</p>
+    <p>every map eventually chooses a center.</p>
+  </div>
+
+</section>
+
+<!-- HINDI / URDU -->
+<div class="hindi-s">
+  <p class="slabel">in the mother tongue</p>
+  <div class="reveal"><p class="hl big">Prem patjhad hai<br>Prem hi basant</p></div>
+  <div class="reveal"><p class="hl">उसके साथ मंदिर जाने से<br>उसके लिए मंदिर जाने तक का सफर।</p></div>
+  <div class="reveal"><p class="hl">Chamakte chand ko mai<br>Haantho mein yun bhar loon<br>Ae... raat andhi tu ho jaye.</p></div>
+  <div class="reveal"><p class="hl">Jab tak jahaan mein mera naam hai<br>Tab tak mere naam tu</p></div>
+  <div class="reveal"><p class="hl" style="color:var(--rose);font-style:italic">क्या तुम्हें पता है मेरी हत्या के बाद<br>तुम्हारी बची उम्र का क्या होगा</p></div>
+  <div class="reveal" style="margin-top:4rem">
+    <p class="urdu-l">tujh ko dariya-dili ki qasam, saqiya!</p>
+    <p class="urdu-t">for the sake of generosity, swear upon it, o bartender!</p>
+    <p class="urdu-l">mustaqil daur par daur chaltaa rahe!</p>
+    <p class="urdu-t">keep the round of drinks flowing one after another!</p>
+    <p class="urdu-l">raunaq-e-meyqada yuñ hi badhti rahe —</p>
+    <p class="urdu-t">the flock and jolly of the winehouse shall only get better —</p>
+    <p class="urdu-l">ek girtaa rahe, ek sambhaltaa rahe!</p>
+    <p class="urdu-t">one shall stumble, another shall get steady!</p>
+  </div>
+</div>
+
+<div class="dv"><span>∗</span></div>
+
+<!-- POETRY II -->
+<section class="poetry" style="padding-top:6rem">
+
+  <div class="poem raw reveal">
+    <div class="pnum">VIII</div>
+    <p>every day, i choose you again.</p>
+    <p>not in some soft, fairytale kind of way.</p>
+    <p>in the ugly way.</p>
+    <p>in the bloodshot eyes, shaking hands,</p>
+    <p>screaming-into-the-pillow kind of way.</p>
+    <span class="gap"></span>
+    <p>i choose you when i hate you.</p>
+    <p>i choose you when you ruin me.</p>
+    <span class="gap"></span>
+    <p class="shout">I CHOOSE YOU WHEN I'M LYING TO MYSELF,<br>SAYING I DESERVE PEACE.<br>I DON'T WANT PEACE. I WANT YOU.</p>
+  </div>
+
+  <div class="poem reveal">
+    <div class="pnum">IX</div>
+    <p>I think I loved you in a way that only works in movies.</p>
+    <p>The kind where timing is cruel</p>
+    <p>and the music swells at the wrong moment,</p>
+    <p>and two people almost choose each other forever.</p>
+  </div>
+
+  <div class="poem reveal">
+    <div class="pnum">X</div>
+    <p>You said we'd find each other again someday.</p>
+    <span class="gap"></span>
+    <p>I think that's what people say</p>
+    <p>when they already know they won't.</p>
+    <span class="gap"></span>
+    <p>I memorized it anyway.</p>
+    <p>I say it sometimes —</p>
+    <p>when I need to believe in something.</p>
+  </div>
+
+  <div class="poem reveal">
+    <div class="pnum">XI</div>
+    <p>"I loved only you,</p>
+    <p>and I chose you every time,</p>
+    <p>because to me you were never just a person —</p>
+    <p>you were my person."</p>
+    <span class="gap"></span>
+    <p class="dim-p">But you're not nerdy enough to understand.</p>
+  </div>
+
+  <div class="poem reveal">
+    <div class="pnum">XII</div>
+    <p>my final act of love this</p>
+    <p>my final act of love that</p>
+    <span class="gap"></span>
+    <p>how do you stop loving someone</p>
+    <p>to actually give them a final act of love?</p>
+  </div>
+
+  <div class="poem reveal">
+    <div class="pnum">XIII</div>
+    <p>I begged.</p>
+    <p>and begged</p>
+    <p>until I couldn't anymore.</p>
+  </div>
+
+  <div class="poem ita reveal">
+    <div class="pnum">XIV</div>
+    <p>i dont know how to continue being your nothing.</p>
+  </div>
+
+  <div class="poem reveal">
+    <div class="pnum">XV</div>
+    <p>I was good.</p>
+    <p>I was so good.</p>
+    <span class="gap"></span>
+    <p class="dim-p">I wish you were here to see my achievement.</p>
+    <p class="dim-p">I wish I could share this with you.</p>
+  </div>
+
+  <div class="poem reveal">
+    <div class="pnum">XVI</div>
+    <p>You were never present</p>
+    <p>and yet your absence bothers me a lot.</p>
+  </div>
+
+  <div class="poem ita reveal">
+    <div class="pnum">XVII</div>
+    <p>Uski jagah toh ab shayad wo bhi nhi le sakti.</p>
+  </div>
+
+  <div class="poem reveal">
+    <div class="pnum">XVIII</div>
+    <p>A part of me is still waiting for you.</p>
+    <span class="gap"></span>
+    <p class="dim-p">I hate that.</p>
+  </div>
+
+  <div class="poem ita reveal">
+    <div class="pnum">XIX</div>
+    <p>i breathe her in without thinking.</p>
+  </div>
+
+  <div class="poem large reveal">
+    <div class="pnum">XX</div>
+    <p>if it wasn't her,</p>
+    <p>it won't be anyone.</p>
+  </div>
+
+</section>
+
+<!-- BAND 2 -->
+<div class="band db reveal">
+  <p>I can turn you into poetry, but I cannot make you love me.</p>
+</div>
+
+<!-- INTERLUDE -->
+<div class="interlude reveal">
+  <p>Between all these goals, deadlines and endless dreams —<br>I wish for <strong>a quiet corner</strong><br>where I don't have to give anything.<br>Not even a smile.<br>Just a place to breathe and simply be.</p>
+</div>
+
+<!-- PHILOSOPHY POEMS -->
+<section class="poetry" style="padding-top:3rem">
+
+  <div class="poem reveal">
+    <div class="pnum">XXI</div>
+    <p>I don't trust people who say they've "moved on."</p>
+    <span class="gap"></span>
+    <p>Most of us just learn which thoughts to avoid</p>
+    <p>to keep functioning.</p>
+  </div>
+
+  <div class="poem ctr reveal">
+    <div class="pnum">XXII</div>
+    <p>Does it get better?</p>
+    <span class="gap"></span>
+    <p style="color:var(--pale)">No.</p>
+    <p>But it becomes worth it.</p>
+  </div>
+
+  <div class="poem reveal">
+    <div class="pnum">XXIII</div>
+    <p>Love is not a fairytale.</p>
+    <p>It is a fragile, fleeting emotion.</p>
+    <span class="gap"></span>
+    <p class="dim-p">The opposite of love is not hatred.</p>
+    <p class="dim-p">It is indifference.</p>
+  </div>
+
+  <div class="poem reveal">
+    <div class="pnum">XXIV</div>
+    <p>Everything seems so beautiful</p>
+    <p>that it starts to hurt.</p>
+    <span class="gap"></span>
+    <p>The sunset is beautiful because it is ending.</p>
+    <p>A song is beautiful because it fades.</p>
+    <p>A person is beautiful because they are mortal.</p>
+    <span class="gap"></span>
+    <p class="dim-p">There's something bittersweet in beauty.</p>
+  </div>
+
+  <div class="poem reveal">
+    <div class="pnum">XXV</div>
+    <p>Everyone believes they are right.</p>
+    <p>Everyone has reasons.</p>
+    <p>Everyone has wounds they are protecting.</p>
+  </div>
+
+  <div class="poem reveal">
+    <div class="pnum">XXVI</div>
+    <p>Love demands courage.</p>
+    <span class="gap"></span>
+    <p class="dim-p">They chose comfort.</p>
+  </div>
+
+  <div class="poem dlg reveal">
+    <div class="pnum">XXVII</div>
+    <p>"I want you always to remember me.</p>
+    <p>Will you remember that I existed,</p>
+    <p>and that I stood next to you here like this?"</p>
+    <span class="gap"></span>
+    <p style="color:var(--pale);font-style:normal">"Always," I said. "I'll always remember."</p>
+  </div>
+
+  <div class="poem reveal">
+    <div class="pnum">XXVIII</div>
+    <p>— You are perfect as you are…</p>
+    <span class="gap"></span>
+    <p>— Maybe…</p>
+    <p>but I would still belong to someone</p>
+    <p>who doesn't belong to me.</p>
+    <p class="dim-p">Today and always.</p>
+  </div>
+
+  <div class="poem reveal">
+    <div class="pnum">XXIX</div>
+    <p>I never really learned emotional maturity.</p>
+    <span class="gap"></span>
+    <p>I suppressed my own feelings</p>
+    <p>just to understand others,</p>
+    <p>maintain peace,</p>
+    <p>or avoid rejection.</p>
+    <span class="gap"></span>
+    <p class="dim-p">Emotional maturity, I think,</p>
+    <p class="dim-p">is about respecting both yourself and others.</p>
+    <p class="dim-p">Knowing how to set boundaries.</p>
+    <p class="dim-p">How to say no without being disrespectful.</p>
+    <p class="dim-p">How to be honest without being cruel.</p>
+  </div>
+
+  <div class="poem ita reveal">
+    <div class="pnum">XXX</div>
+    <p>Some people are born only to save someone else.</p>
+  </div>
+
+  <div class="poem reveal">
+    <div class="pnum">XXXI</div>
+    <p>The flower doesn't bloom to be seen.</p>
+    <p>It blooms because it's a flower.</p>
+  </div>
+
+  <div class="poem reveal">
+    <div class="pnum">XXXII</div>
+    <p>I. is not Love.</p>
+    <p>Love is not I.</p>
+    <span class="gap"></span>
+    <p class="dim-p">And yet somehow —</p>
+    <p class="dim-p">I only know both through her.</p>
+  </div>
+
+  <div class="poem reveal">
+    <div class="pnum">XXXIII</div>
+    <p>A man who has nothing of his own to take pride in</p>
+    <p>always turns to his caste, color, and religion.</p>
+    <span class="gap"></span>
+    <p>So next time someone shames you —</p>
+    <p>about something that makes you <em>you</em> —</p>
+    <p>it's just their insecurities speaking.</p>
+    <span class="gap"></span>
+    <p class="dim-p">It has nothing to do with you at all.</p>
+    <p class="dim-p">Just forgive, and move on.</p>
+  </div>
+
+</section>
+
+<!-- BAND 3 -->
+<div class="band rb reveal">
+  <p>The moment we think all of it is going to end, the ruthless fire smirks at us.</p>
+</div>
+
+<!-- FINAL POEMS -->
+<section class="poetry" style="padding-top:7rem;padding-bottom:3rem">
+
+  <div class="poem reveal">
+    <div class="pnum">XXXIV</div>
+    <p>Once you become a certain age,</p>
+    <p>it is your responsibility</p>
+    <p>to unlearn behaviors</p>
+    <p>that hinder your growth as a person.</p>
+  </div>
+
+  <div class="poem ita reveal">
+    <div class="pnum">XXXV</div>
+    <p>If the truth matters so much,</p>
+    <p>why do falsehoods flourish?</p>
+    <span class="gap"></span>
+    <p>We all are selective liars.</p>
+  </div>
+
+  <div class="poem raw reveal">
+    <div class="pnum">XXXVI</div>
+    <p>People say obsession isn't love.</p>
+    <p>Maybe they're right.</p>
+    <span class="gap"></span>
+    <p>But I know what I feel</p>
+    <p>and I know what I want</p>
+    <p>and I know that no amount of time,</p>
+    <p>no amount of distance,</p>
+    <p>no amount of reasonable advice</p>
+    <p>has changed a single thing.</p>
+    <span class="gap"></span>
+    <p class="shout">I WANT HER.<br>SPECIFICALLY HER.<br>ONLY HER.</p>
+    <span class="gap"></span>
+    <p class="dim-p">Call it what you want.</p>
+    <p class="dim-p">I call it knowing.</p>
+  </div>
+
+</section>
+
+<!-- PRIYANSH BAND -->
+<div class="band db reveal">
+  <p>She never called me Priyanshu.<br><em>She called me Priyansh.</em><br><span style="font-size:.6em;letter-spacing:.22em;color:var(--dim)">in that one syllable dropped — I became someone only she could name.</span></p>
+</div>
+
+<section class="poetry" style="padding-top:6rem">
+
+  <div class="poem dlg reveal">
+    <div class="pnum">—</div>
+    <p>I called her <em>Proo.</em></p>
+    <p>Her first alias. My private word for her.</p>
+    <span class="gap"></span>
+    <p>She had other names in the world —</p>
+    <p>names her parents chose,</p>
+    <p>names her friends used,</p>
+    <p>names that belonged to everyone.</p>
+    <span class="gap"></span>
+    <p>But <em>Proo</em> was mine.</p>
+    <p>The name that existed</p>
+    <p>only inside the small universe</p>
+    <p>we built and broke and rebuilt</p>
+    <p>in a game no one else understood.</p>
+    <span class="gap"></span>
+    <p class="dim-p">I still can't explain why naming her felt so important.</p>
+    <p class="dim-p">I think it was the only way I knew how to say —</p>
+    <p class="dim-p">you are something specific to me.</p>
+    <p class="dim-p">You are not just anybody.</p>
+  </div>
+
+  <div class="poem reveal">
+    <div class="pnum">XXXVII</div>
+    <p>I imagine everything with her.</p>
+    <p>Every version of a future.</p>
+    <p>Every quiet morning.</p>
+    <p>Every ordinary moment made extraordinary</p>
+    <p>just because she is in it.</p>
+    <span class="gap"></span>
+    <p class="dim-p">And then I remember none of it is real.</p>
+    <p class="dim-p">And then I imagine it again.</p>
+  </div>
+
+  <div class="poem raw reveal">
+    <div class="pnum">XXXVIII</div>
+    <p>I overthink. I overstress.</p>
+    <p>I replay conversations that ended long ago.</p>
+    <p>I rewrite things I should have said.</p>
+    <p>I rehearse things I will never get to say.</p>
+    <span class="gap"></span>
+    <p>With everyone else — this never stops.</p>
+    <p>It is exhausting. It is constant.</p>
+    <span class="gap"></span>
+    <p class="shout">BUT WITH HER — IT WENT QUIET.</p>
+    <span class="gap"></span>
+    <p>That is what I miss most.</p>
+    <p>Not even her.</p>
+    <p>The silence she gave me inside my own head.</p>
+  </div>
+
+  <div class="poem reveal">
+    <div class="pnum">XXXIX</div>
+    <p>I don't say this lightly.</p>
+    <p>I have people who love me.</p>
+    <p>Family. Friends. People who stayed.</p>
+    <span class="gap"></span>
+    <p>And I love her more than all of them.</p>
+    <span class="gap"></span>
+    <p class="dim-p">That is not something I am proud of.</p>
+    <p class="dim-p">It is just something that is true.</p>
+    <p class="dim-p">And I have stopped pretending otherwise.</p>
+  </div>
+
+</section>
+
+<!-- ACROSTIC — N I D A hidden in first letters -->
+<div class="origin" style="padding-top:2rem;padding-bottom:5rem;text-align:left">
+  <p class="origin-sub" style="margin-bottom:2.5rem">a poem with no title</p>
+  <div class="poem reveal" style="margin-bottom:0">
+    <p><span class="acro-l">N</span>o one will know this poem is addressed to you.</p>
+    <p><span class="acro-l">I</span>t just lives here, quietly, the way I love you —</p>
+    <p><span class="acro-l">D</span>isguised as something else, hiding in plain sight.</p>
+    <p><span class="acro-l">A</span>nd only you would know, if you ever read this, that every word was always yours.</p>
+  </div>
+</div>
+
+
+<!-- ══ ON LOVE & PARTNERSHIP ══ -->
+<div class="band db reveal">
+  <p>"The price of loving someone very much… is never loving anyone again."</p>
+  <small>— Fyodor Dostoevsky</small>
+</div>
+
+<section class="poetry" style="padding-top:6rem">
+  <p class="slabel">on love</p>
+
+  <div class="poem reveal">
+    <div class="pnum">—</div>
+    <p>I used to think the most important thing</p>
+    <p>was to have common interests —</p>
+    <p>the same books, the same movies, a favourite city.</p>
+    <span class="gap"></span>
+    <p>But I've learned it's not about that.</p>
+    <p>It's about being similar in kindness.</p>
+    <p>In the way you treat people.</p>
+    <p>In the way you hold space for their flaws</p>
+    <p>and for your own.</p>
+    <span class="gap"></span>
+    <p>It's about how you deal with anger —</p>
+    <p>not just whether you yell or stay quiet,</p>
+    <p>but whether you choose to return to each other</p>
+    <p>when the heat passes.</p>
+    <span class="gap"></span>
+    <p class="dim-p">It's about knowing that you will both grow,</p>
+    <p class="dim-p">and that growing together</p>
+    <p class="dim-p">will require as much forgiveness as it does love.</p>
+    <p class="attr">— Gor</p>
+  </div>
+
+  <div class="poem reveal">
+    <div class="pnum">—</div>
+    <p>Being a good person is easy —</p>
+    <p>perhaps one of the most beautiful things in the world.</p>
+    <span class="gap"></span>
+    <p>But it carries a cruel curse.</p>
+    <p>When you become too good to be real for someone,</p>
+    <p>they choose to leave.</p>
+    <p>And you are left standing alone</p>
+    <p>with nothing but regret,</p>
+    <p>questioning whether goodness itself</p>
+    <p>was your mistake.</p>
+    <span class="gap"></span>
+    <p class="dim-p">Sometimes even the most giving hearts</p>
+    <p class="dim-p">need reciprocity.</p>
+  </div>
+
+  <div class="poem reveal">
+    <div class="pnum">—</div>
+    <p>Sometimes the wrong people feel like home</p>
+    <p>because "home" was never the safe place</p>
+    <p>we romanticised.</p>
+    <span class="gap"></span>
+    <p>It was simply the first place</p>
+    <p>we learned to survive.</p>
+  </div>
+
+  <div class="poem ita reveal">
+    <div class="pnum">—</div>
+    <p>And maybe we'll realise</p>
+    <p>that the truest form of love</p>
+    <p>isn't to stand in front of them or behind them.</p>
+    <span class="gap"></span>
+    <p>But beside them.</p>
+    <p>Not to lead. Not to follow.</p>
+    <p>Just to be there. Unshaken. Unafraid.</p>
+  </div>
+
+  <div class="poem reveal">
+    <div class="pnum">—</div>
+    <p>Out beyond ideas of wrongdoing and rightdoing,</p>
+    <p>there is a field.</p>
+    <p>I'll meet you there.</p>
+    <p class="attr">— Rumi</p>
+  </div>
+
+</section>
+
+<!-- ══ ALMOST ══ -->
+<div class="band rb reveal">
+  <p>I've grown comfortable with almosts.<br>Almost loved. Almost understood. Almost chosen.<br><span style="font-size:.7em;color:var(--dim)">They hurt less when you expect them.</span></p>
+</div>
+
+<section class="poetry" style="padding-top:6rem">
+  <p class="slabel">almost</p>
+
+  <div class="poem reveal">
+    <div class="pnum">—</div>
+    <p>I don't tell anyone,</p>
+    <p>but I still look for you in crowds.</p>
+    <p>Not because I believe you'll be there,</p>
+    <p>but because my mind hasn't learned the truth</p>
+    <p>my heart already knows.</p>
+  </div>
+
+  <div class="poem reveal">
+    <div class="pnum">—</div>
+    <p>there's an intimacy in "how did you know that?"</p>
+    <p>that no grand declaration can touch.</p>
+    <p>a kind of love that lives in the smallest,</p>
+    <p>most ordinary gestures.</p>
+  </div>
+
+  <div class="poem reveal">
+    <div class="pnum">—</div>
+    <p>"How do I say 'hello' to the one who's always there?</p>
+    <p>In my heavy head, in my broken heart</p>
+    <p>and in the creases of my palms</p>
+    <p>clenched into fists full of longing.</p>
+    <span class="gap"></span>
+    <p>You're always here but never near.</p>
+    <p>You never arrive; you never leave."</p>
+    <p class="attr">— s.i.n</p>
+  </div>
+
+  <div class="poem reveal">
+    <div class="pnum">—</div>
+    <p>maybe you don't end up with the person you love.</p>
+    <p>maybe that's not how life works.</p>
+    <p>maybe love changes —</p>
+    <p>from late night calls until dawn</p>
+    <p>to "i don't wanna talk, let me sleep."</p>
+    <p>from "i understand, i'm here,"</p>
+    <p>to "why are you overthinking so much?"</p>
+    <p>from "i love you,"</p>
+    <p>to "i love myself now."</p>
+  </div>
+
+  <div class="poem reveal">
+    <div class="pnum">—</div>
+    <p>Stuck between</p>
+    <p><em>"tu hoti toh, kya hota"</em></p>
+    <p>and</p>
+    <p><em>"tu hoti toh, ye sab nahi hota."</em></p>
+  </div>
+
+  <div class="poem ita reveal">
+    <div class="pnum">—</div>
+    <p>You're sunlight through a window,</p>
+    <p>which I stand in, warmed.</p>
+    <p class="attr">— Jessie Burton</p>
+  </div>
+
+</section>
+
+<!-- ══ TO HER ══ -->
+<div class="band db reveal">
+  <p>In another universe, you're mine —<br>and our daughter has your eyes.</p>
+</div>
+
+<section class="poetry" style="padding-top:6rem">
+  <p class="slabel">to her</p>
+
+  <div class="poem reveal">
+    <div class="pnum">—</div>
+    <p>I would still choose you,</p>
+    <p>even knowing we only touch each other's lives</p>
+    <p>long enough to make leaving irreversible,</p>
+    <p>that everything I become</p>
+    <p>carries the shape of what I didn't keep.</p>
+    <span class="gap"></span>
+    <p class="dim-p">But you're just not nerdy enough to understand that.</p>
+  </div>
+
+  <div class="poem reveal">
+    <div class="pnum">—</div>
+    <p>You, my love,</p>
+    <p>have the right to break me</p>
+    <p>piece by piece.</p>
+    <span class="gap"></span>
+    <p>You, my love,</p>
+    <p>have the power to make me</p>
+    <p>whole again.</p>
+    <span class="gap"></span>
+    <p>You, my love,</p>
+    <p>are allowed to do</p>
+    <p>whatever you want with my heart.</p>
+  </div>
+
+  <div class="poem reveal">
+    <div class="pnum">—</div>
+    <p>The ghar we built together,</p>
+    <p>the one you carried away with you —</p>
+    <p>keep it safe. take care of it.</p>
+    <span class="gap"></span>
+    <p class="dim-p">For one day, I might come back to claim it again.</p>
+  </div>
+
+  <div class="poem reveal">
+    <div class="pnum">—</div>
+    <p>It is my privilege that I can cry over my love.</p>
+    <p>But you, my love, you are so strong.</p>
+    <p>Even without speaking to anyone,</p>
+    <p>you continue to love me.</p>
+    <span class="gap"></span>
+    <p>I may never be able to do that.</p>
+    <p class="dim-p">Perhaps that is why you are greater than me.</p>
+  </div>
+
+  <div class="poem ita reveal">
+    <div class="pnum">—</div>
+    <p>मैं तुझे अपनी हर एक नज़्म में लिखूँगा,</p>
+    <p>मैं तुझे अपनी हर एक नज़्म से जीना चाहूँगा।</p>
+  </div>
+
+  <div class="poem reveal">
+    <div class="pnum">—</div>
+    <p>Ik dafa mujhse milne aa jao,</p>
+    <p>kuch na lao — tum khud aa jao.</p>
+  </div>
+
+  <div class="poem reveal">
+    <div class="pnum">—</div>
+    <p>I am afraid of some songs.</p>
+    <p>Some songs strip me bare,</p>
+    <p>exposing my very existence.</p>
+    <p>They throw all my memories at my face —</p>
+    <p>the ones I have been trying to escape.</p>
+    <span class="gap"></span>
+    <p>They break me, piece by piece.</p>
+    <p>Every breath begins to ache.</p>
+    <p>My heart starts crying,</p>
+    <p>yet my eyes refuse to shed tears.</p>
+  </div>
+
+  <div class="poem reveal">
+    <div class="pnum">—</div>
+    <p>There's a part of you that keeps me breathing,</p>
+    <p>and another that breaks me a little more each day.</p>
+  </div>
+
+  <div class="poem ita reveal">
+    <div class="pnum">—</div>
+    <p>I am yours,</p>
+    <p>not in part, not in passing,</p>
+    <p>but utterly, irrevocably —</p>
+    <p>as breath belongs to life,</p>
+    <p>and flame to fire,</p>
+    <p>I belong to you.</p>
+  </div>
+
+</section>
+
+<!-- ══ DECEMBER & SEASONS ══ -->
+<div class="band rb reveal">
+  <p>You feel like coming back home to bed<br>on a late December evening.</p>
+  <small>— Vesmir</small>
+</div>
+
+<section class="poetry" style="padding-top:6rem">
+  <p class="slabel">december, november, january</p>
+
+  <div class="poem reveal">
+    <div class="pnum">—</div>
+    <p>January has always held a special place in my heart.</p>
+    <p>It carries a deep sense of nostalgia,</p>
+    <p>wrapped in warmth, familiarity,</p>
+    <p>and a homely comfort.</p>
+    <span class="gap"></span>
+    <p>It feels like a homecoming</p>
+    <p>after a long, arduous battle,</p>
+    <p>where the soul finally finds rest.</p>
+  </div>
+
+  <div class="poem reveal">
+    <div class="pnum">—</div>
+    <p>Last year, around this very time,</p>
+    <p>I was with her —</p>
+    <p>and these flowers were a part of our days.</p>
+    <span class="gap"></span>
+    <p>I used to send her photos of them,</p>
+    <p>never knowing their true significance,</p>
+    <p>yet somehow they always felt like her.</p>
+    <span class="gap"></span>
+    <p>A few days ago, when I saw these blooms again,</p>
+    <p>her memory returned quietly —</p>
+    <p>and an involuntary smile touched my face.</p>
+    <span class="gap"></span>
+    <p class="dim-p">A year has passed. New flowers have grown.</p>
+    <p class="dim-p">Seasons have changed.</p>
+    <p class="dim-p">But she's no longer here.</p>
+    <p class="dim-p">Still — these flowers and this November</p>
+    <p class="dim-p">will always carry her echoes.</p>
+  </div>
+
+  <div class="poem raw reveal">
+    <div class="pnum">—</div>
+    <p>I'm ending December without you.</p>
+    <p>I'm ending this year without you.</p>
+    <p class="shout">I'M ENDING MYSELF WITHOUT YOU.</p>
+  </div>
+
+  <div class="poem reveal">
+    <div class="pnum">—</div>
+    <p>It's not just December that has arrived —</p>
+    <p>it has come carrying your memories.</p>
+    <span class="gap"></span>
+    <p>Maybe every December will remind me of you.</p>
+  </div>
+
+  <div class="poem ita reveal">
+    <div class="pnum">—</div>
+    <p>In December my grief becomes imprecise,</p>
+    <p>all is hurting,</p>
+    <p>all is blue.</p>
+    <p class="attr">— Vesmir</p>
+  </div>
+
+  <div class="poem reveal">
+    <div class="pnum">—</div>
+    <p>They say time isn't linear.</p>
+    <p>So somewhere, we're still laughing,</p>
+    <p>still whole,</p>
+    <p>still in love —</p>
+    <p>before the collapse.</p>
+  </div>
+
+  <div class="poem reveal">
+    <div class="pnum">—</div>
+    <p>You walked away,</p>
+    <p>but I was still there…</p>
+    <p>I'm still there.</p>
+    <p>I'm still there.</p>
+    <p>I'm still here.</p>
+    <p>I'm still here.</p>
+    <p>I'm still here.</p>
+    <p>I'm still here.</p>
+    <p class="dim-p" style="letter-spacing:.15em">I'm still here…..</p>
+  </div>
+
+  <div class="poem reveal">
+    <div class="pnum">—</div>
+    <p>When you think you've finally moved far away</p>
+    <p>from your past,</p>
+    <p>it somehow drags you right back into it.</p>
+    <span class="gap"></span>
+    <p>All the effort, all the growth,</p>
+    <p>suddenly feels pointless.</p>
+    <p>Those flashbacks hit you out of nowhere,</p>
+    <p>making you shiver —</p>
+    <p>and before you realize it,</p>
+    <p>your confidence drops back down to zero.</p>
+  </div>
+
+  <div class="poem reveal">
+    <div class="pnum">—</div>
+    <p>You never truly leave a memory.</p>
+    <p>You simply place it</p>
+    <p>in a different pocket of your soul.</p>
+    <span class="gap"></span>
+    <p class="dim-p">But you feel its weight pressing against you</p>
+    <p class="dim-p">with every step you take.</p>
+  </div>
+
+  <div class="poem reveal">
+    <div class="pnum">—</div>
+    <p>And when I am gone,</p>
+    <p>don't look for me in photos —</p>
+    <span class="gap"></span>
+    <p>look for me</p>
+    <p>in the pauses</p>
+    <p>of the songs we both loved.</p>
+    <p class="attr">— Harvey</p>
+  </div>
+
+  <div class="poem reveal">
+    <div class="pnum">—</div>
+    <p>After you,</p>
+    <p>I will stop decorating our incomplete home</p>
+    <p>with flowers.</p>
+    <span class="gap"></span>
+    <p class="dim-p">I will ensure every future bloom</p>
+    <p class="dim-p">is reserved for my funeral.</p>
+  </div>
+
+</section>
+
+<!-- ══ COMING HOME TO YOURSELF ══ -->
+<div class="band db reveal">
+  <p>The truth is — you must keep going.<br><span style="font-size:.65em;color:var(--dim)">Because you deserve to know what happens when all your hard work pays off.</span></p>
+</div>
+
+<section class="poetry" style="padding-top:6rem">
+  <p class="slabel">to yourself</p>
+
+  <div class="poem reveal">
+    <div class="pnum">—</div>
+    <p>Whenever you feel sad —</p>
+    <p>try to talk to little children if you can.</p>
+    <p>And if you can't,</p>
+    <p>watch videos of cute children online.</p>
+    <span class="gap"></span>
+    <p class="dim-p">Somehow they bring a gentle sense of comfort</p>
+    <p class="dim-p">and heal parts of you</p>
+    <p class="dim-p">they never even hurt.</p>
+  </div>
+
+  <div class="poem reveal">
+    <div class="pnum">—</div>
+    <p>We laughed, we hurt, we grew apart,</p>
+    <p>but in the end,</p>
+    <p>I'm grateful for every shared second —</p>
+    <p>because even fleeting warmth leaves a mark.</p>
+  </div>
+
+  <div class="poem ita reveal">
+    <div class="pnum">—</div>
+    <p>To be seen, when you're quiet.</p>
+    <p>To be loved, when you're not strong.</p>
+    <p>To be held, without asking.</p>
+    <p>To be understood, without words.</p>
+    <p>To rest, without guilt.</p>
+    <p>To heal, without rushing.</p>
+    <p>To laugh, without pretending.</p>
+    <p>To be enough, just as you are.</p>
+    <p>To stop providing, and start existing.</p>
+    <p>To trust the silence that once scared you.</p>
+    <p>To find peace in the pieces that stayed.</p>
+    <p>To love softer.</p>
+    <p>To walk slower.</p>
+    <p>To feel deeper.</p>
+    <span class="gap"></span>
+    <p style="color:var(--rose)">To finally come home — to you, yourself.</p>
+  </div>
+
+</section>
+
+
+<!-- ══ ON LOVE (RAW TRUTH) ══ -->
+<div class="band rb reveal">
+  <p>"People don't like love. They like that flittery flirty feeling.<br>They don't love love. Love is sacrificial. Love is ferocious."</p>
+</div>
+
+<section class="poetry" style="padding-top:6rem">
+  <p class="slabel">what love actually is</p>
+
+  <div class="poem reveal">
+    <div class="pnum">—</div>
+    <p>Love hurts. That's the deal.</p>
+    <p>It'll wreck your sleep, blur your appetite,</p>
+    <p>make you care about things</p>
+    <p>that used to roll off your back.</p>
+    <span class="gap"></span>
+    <p>You'll write texts you'll never send.</p>
+    <p>You'll stare at doors they won't walk through anymore.</p>
+    <span class="gap"></span>
+    <p>And you'll survive it. Barely.</p>
+    <span class="gap"></span>
+    <p>But god — wasn't it beautiful?</p>
+    <p>Wasn't it holy for a moment?</p>
+    <span class="gap"></span>
+    <p>We were not put on this planet to hoard safety.</p>
+    <p>We were built to burn for someone.</p>
+    <span class="gap"></span>
+    <p class="dim-p">And even when they leave,</p>
+    <p class="dim-p">even when it ends with silence or slammed doors —</p>
+    <p class="dim-p">you loved. That's the point. That's the meaning.</p>
+    <span class="gap"></span>
+    <p>Don't mourn the heartbreak.</p>
+    <p>Be grateful you felt anything at all.</p>
+  </div>
+
+  <div class="poem reveal">
+    <div class="pnum">—</div>
+    <p>We accept the love we think we deserve.</p>
+    <span class="gap"></span>
+    <p class="dim-p">I just read that somewhere.</p>
+    <p class="dim-p">I haven't stopped thinking about it since.</p>
+  </div>
+
+  <div class="poem reveal">
+    <div class="pnum">—</div>
+    <p>People will come and say, "you deserve better."</p>
+    <p>Maybe they're even right.</p>
+    <p>But it was never about deserving better.</p>
+    <p>It was always about being with <em>that person.</em></p>
+    <span class="gap"></span>
+    <p>Love isn't something done logically.</p>
+    <p>Love is simply done —</p>
+    <p>through their soul, their voice, their eyes,</p>
+    <p>the way their hair ties up in a bun,</p>
+    <p>the two cups of tea you make together</p>
+    <p>and the conversations that fill those moments.</p>
+    <span class="gap"></span>
+    <p class="dim-p">It's in remembering every tiny, lovely thing about them.</p>
+    <p class="dim-p">So it was never about deserving better.</p>
+  </div>
+
+  <div class="poem reveal">
+    <div class="pnum">—</div>
+    <p>A person says "I love you"</p>
+    <p>but still doesn't choose you.</p>
+    <span class="gap"></span>
+    <p class="dim-p">People will love you when they want to,</p>
+    <p class="dim-p">or under certain conditions.</p>
+    <p class="dim-p">Unconditional love is just a lie.</p>
+  </div>
+
+  <div class="poem ita reveal">
+    <div class="pnum">—</div>
+    <p>Remember — dying for someone you love</p>
+    <p>is an act of honor.</p>
+    <p>But living for them</p>
+    <p>is godly.</p>
+    <p>It's a blessing. And way harder.</p>
+    <span class="gap"></span>
+    <p class="dim-p">Take care of people you love by being better,</p>
+    <p class="dim-p">not by giving it up.</p>
+  </div>
+
+  <div class="poem reveal">
+    <div class="pnum">—</div>
+    <p>To love someone long term</p>
+    <p>is to attend a thousand funerals</p>
+    <p>of who they used to be.</p>
+  </div>
+
+</section>
+
+<!-- ══ KHAT / MUSIC ══ -->
+<div class="band db reveal">
+  <p>I AM THIS SONG.<br>I WILL ALWAYS BE THIS SONG.</p>
+  <small>— Khat</small>
+</div>
+
+<section class="poetry" style="padding-top:6rem">
+  <p class="slabel">the small things</p>
+
+  <div class="poem reveal">
+    <div class="pnum">—</div>
+    <p>My love language?</p>
+    <p>Taking screenshots after every call</p>
+    <p>just to keep our moments close.</p>
+  </div>
+
+  <div class="poem reveal">
+    <div class="pnum">—</div>
+    <p>I wonder if the things</p>
+    <p>that remind me of you</p>
+    <p>remind you of me.</p>
+  </div>
+
+  <div class="poem ita reveal">
+    <div class="pnum">—</div>
+    <p>तोहफे में क्या लाऊ?</p>
+    <p>फूल, कंगन, झुमके, पायल, काजल, किताबें</p>
+    <p>या</p>
+    <p>मैं ही आ जाऊ।</p>
+  </div>
+
+  <div class="poem reveal">
+    <div class="pnum">—</div>
+    <p>I never stopped writing you.</p>
+    <p>I just stopped signing it "us."</p>
+  </div>
+
+  <div class="poem reveal">
+    <div class="pnum">—</div>
+    <p>How do you know</p>
+    <p>when you love someone?</p>
+    <span class="gap"></span>
+    <p class="dim-p">You just know.</p>
+    <p class="dim-p">And then you spend the rest of your life</p>
+    <p class="dim-p">trying to unknow it.</p>
+  </div>
+
+  <div class="poem reveal">
+    <div class="pnum">—</div>
+    <p>जब कहा था मोहब्बत गुनाह तो नहीं —</p>
+    <p>फिर गुनाह के बराबर सजा क्यों मिली?</p>
+  </div>
+
+</section>
+
+<!-- ══ THINGS I WANT TO DO FOR YOU ══ -->
+<div class="band rb reveal">
+  <p>She's everything I had ever dreamt of.</p>
+</div>
+
+<section class="poetry" style="padding-top:6rem;padding-bottom:2rem">
+  <p class="slabel">things I want to do with you, and for you</p>
+
+  <div class="poem reveal" style="max-width:none;margin-bottom:3rem">
+    <div class="pnum">—</div>
+    <p>I have this whole life I've been building in my head.</p>
+    <p>Not a fantasy. Not something vague.</p>
+    <p>Something specific, detailed, ours.</p>
+    <span class="gap"></span>
+    <p>And the unbearable thing about loving someone</p>
+    <p>you haven't been given yet</p>
+    <p>is that the list just keeps growing.</p>
+    <p>Every day, something new I want to do for you.</p>
+    <p>Every day, something I'm saving.</p>
+    <span class="gap"></span>
+    <p class="dim-p">Here's what I've saved so far.</p>
+  </div>
+
+  <div class="poem reveal" style="max-width:none">
+    <div class="pnum">—</div>
+    <p>Buy you lilies and sunflowers.</p>
+    <p>Carry your worries so you don't have to.</p>
+    <p>Hold you close when you feel low,</p>
+    <p>kiss you softly,</p>
+    <p>and run my fingers through your hair.</p>
+    <span class="gap"></span>
+    <p>Take you out for panipuri and chai.</p>
+    <p>Surprise you with dinner at that little cafe you love.</p>
+    <p>Listen for hours to the story of your first crush</p>
+    <p>and your hardest heartbreak.</p>
+    <span class="gap"></span>
+    <p>Make you small gifts with my own hands.</p>
+    <p>Write you long texts when I can't say things face to face.</p>
+    <p>Share earphones on crowded metro rides</p>
+    <p>while the world blurs around us.</p>
+    <span class="gap"></span>
+    <p>Wait for you.</p>
+    <p>Pick up your heel on a rainy day</p>
+    <p>so you can walk barefoot — just the way you like.</p>
+    <p>Cook your favourite childhood dish</p>
+    <p>that your dadi used to make for you.</p>
+    <span class="gap"></span>
+    <p>Look deep into your eyes</p>
+    <p>and never stop noticing their colour.</p>
+    <p>Remember the shade of the kurta you wore on our first date,</p>
+    <p>the colour you said suits me best,</p>
+    <p>and the pink-orange sky from the first time I saw you smile.</p>
+    <span class="gap"></span>
+    <p>Kiss your forehead when you're tired.</p>
+    <p>Trace the scars on your hands</p>
+    <p>and listen to their stories —</p>
+    <p>because every mark is a part of your strength.</p>
+    <span class="gap"></span>
+    <p>Take you to concerts where indie music fills the air.</p>
+    <p>Hold you close as we dance and sing along.</p>
+    <p>Visit art galleries that make you smile</p>
+    <p>and watch your eyes light up</p>
+    <p>when you find your favourite painting.</p>
+    <span class="gap"></span>
+    <p>Cheer with you when India's playing cricket,</p>
+    <p>then share idli sambhar and dosa at our favourite roadside eatery after.</p>
+    <p>Argue about silly things</p>
+    <p>and then laugh so hard</p>
+    <p>that we forget what we were even fighting about.</p>
+    <span class="gap"></span>
+    <p>Share chocolate chip ice cream on lazy afternoons — or midnight.</p>
+    <p>Plan our first small home.</p>
+    <p>Hold you close on cold nights.</p>
+    <span class="gap"></span>
+    <p>Tell you every day how much I love you —</p>
+    <p>and somehow love you a little more</p>
+    <p>than I did the day before.</p>
+  </div>
+
+  <div class="poem ita reveal">
+    <div class="pnum">—</div>
+    <p>अगर सिमट जो उसकी बाहों में</p>
+    <p>तो भूल जाऊं सारे गम।</p>
+  </div>
+
+</section>
+
+<!-- ══ THE HOUSE POEM ══ -->
+<div class="band db reveal">
+  <p>Btw — who am I without you?</p>
+</div>
+
+<section class="poetry" style="padding-top:6rem">
+  <p class="slabel">the house I grew up in</p>
+
+  <div class="poem reveal" style="border-left:1px solid rgba(196,168,130,.12);padding-left:2rem">
+    <div class="pnum">—</div>
+    <p>I grew up in a house</p>
+    <p>where love came with receipts.</p>
+    <span class="gap"></span>
+    <p>be good.</p>
+    <p>be useful.</p>
+    <p>be quiet.</p>
+    <p>don't cry.</p>
+    <p>don't question.</p>
+    <p>don't need too much.</p>
+    <span class="gap"></span>
+    <p>affection was a transaction.</p>
+    <p>apologies were currency.</p>
+    <p>approval was survival.</p>
+    <span class="gap"></span>
+    <p>they called it care</p>
+    <p>but it felt like surveillance.</p>
+    <p>every move documented.</p>
+    <p>every mood dissected.</p>
+    <span class="gap"></span>
+    <p>i learned to predict storms</p>
+    <p>by the way the floorboards creaked.</p>
+    <p>to shrink my volume</p>
+    <p>before their tempers rose.</p>
+    <span class="gap"></span>
+    <p>in public, we were a picture —</p>
+    <p>smiles with cracked edges.</p>
+    <p>the kind of family that photographs well</p>
+    <p>and heals badly.</p>
+    <span class="gap"></span>
+    <p>i became the calm one,</p>
+    <p>the fixer,</p>
+    <p>the apology machine.</p>
+    <p>a child pretending to be gravity</p>
+    <p>just to hold everything together.</p>
+    <span class="gap"></span>
+    <p>and now —</p>
+    <p>i flinch at kindness.</p>
+    <p>i over-explain silence.</p>
+    <p>i confuse peace for boredom</p>
+    <p>and chaos for home.</p>
+    <span class="gap"></span>
+    <p class="dim-p">i'm still learning</p>
+    <p class="dim-p">that love doesn't have to mean control,</p>
+    <p class="dim-p">that safety shouldn't feel like walking on eggshells,</p>
+    <p class="dim-p">that i don't have to earn my right to exist.</p>
+    <span class="gap"></span>
+    <p>i'm learning to be a house</p>
+    <p>where the walls don't listen for anger.</p>
+    <p>where the air stays gentle.</p>
+    <p>where i can breathe</p>
+    <p>without permission.</p>
+  </div>
+
+</section>
+
+<!-- ══ FINAL FRAGMENTS ══ -->
+<section class="poetry" style="padding-top:5rem">
+  <p class="slabel">what remains</p>
+
+  <div class="poem reveal">
+    <div class="pnum">—</div>
+    <p>There's a strange comfort in heartbreak.</p>
+    <p>It reminds you that you once had something</p>
+    <p>so alive it could die.</p>
+  </div>
+
+  <div class="poem ita reveal">
+    <div class="pnum">—</div>
+    <p>You still exist in the soft corners of my memory,</p>
+    <p>but you no longer own the whole room.</p>
+  </div>
+
+  <div class="poem reveal">
+    <div class="pnum">—</div>
+    <p>Tere pyar mein, dil haar ke —</p>
+    <p>maine kya paya,</p>
+    <p>kya gavaya.</p>
+  </div>
+
+  <div class="poem reveal">
+    <div class="pnum">—</div>
+    <p>I am yours,</p>
+    <p>not in part, not in passing,</p>
+    <p>but utterly —</p>
+    <span class="gap"></span>
+    <p>There's this girl.</p>
+    <p>She's someone who can't be mine.</p>
+    <p>And I love her.</p>
+  </div>
+
+  <div class="poem ita reveal">
+    <div class="pnum">—</div>
+    <p>I wish I was special.</p>
+  </div>
+
+  <div class="poem reveal">
+    <div class="pnum">—</div>
+    <p>And if this is the last time</p>
+    <p>I speak of you in verse,</p>
+    <p>let it be known —</p>
+    <p>I never stopped waiting</p>
+    <p>for your eyes in the mirror,</p>
+    <p>for your breath in the silence,</p>
+    <p>for your name</p>
+    <p>to feel like home again.</p>
+    <span class="gap"></span>
+    <p>But spring never had any mercy,</p>
+    <p>and neither does memory.</p>
+    <span class="gap"></span>
+    <p>So I press my palms</p>
+    <p>to the broken glass and whisper —</p>
+    <span class="gap"></span>
+    <p style="color:var(--rose);font-style:italic">"I loved you even when it hurt."</p>
+    <span class="gap"></span>
+    <p class="dim-p">And let the final shard fall.</p>
+  </div>
+
+</section>
+
+
+<!-- ══ ABOUT ME ══ -->
+<div class="band db reveal">
+  <p>Before you understand why I love her like this —<br>you have to understand what I was before her.</p>
+</div>
+
+<div class="origin" style="padding-top:5rem;padding-bottom:3rem">
+  <p class="origin-sub">who I am</p>
+  <span class="ts reveal">teenage years · hostel rooms · somewhere I never belonged</span>
+  <h2 class="origin-title big reveal">the boy who never<br>came home.</h2>
+
+  <div class="reveal" style="margin-top:3rem">
+    <p>My entire teenage life was a hostel room. Four walls, a bed, a window that looked out at nothing that belonged to me.</p>
+  </div>
+
+  <div class="reveal">
+    <p>While everyone else counted down the days to go home — packed bags early, called their parents, smiled the way people smile when they know something warm is waiting — I just watched. I didn't have that particular kind of happy. I didn't know where to put it even if I did.</p>
+  </div>
+
+  <div class="reveal">
+    <p>Home wasn't a relief. Home was just another place where I didn't quite fit. At least in the hostel, the loneliness had a logical reason. At home it had no excuse — and that made it worse. I'd sit in the same house as my family and feel like I was watching them through glass. Present. Invisible. Both at once.</p>
+  </div>
+
+  <div class="reveal">
+    <p>I don't talk much at home. I never forced anyone to give me anything — not attention, not affection, not even a conversation. Somewhere along the way I decided it was easier to need less than to ask and not receive.</p>
+  </div>
+
+  <div class="reveal">
+    <p style="color:var(--dim);font-style:italic">So I became someone who asks for nothing. Who expects nothing. Who is quietly, completely fine — and quietly, completely not.</p>
+  </div>
+
+  <div class="reveal">
+    <p>I don't mix well with people. Not in the easy way others seem to — walking into a room and just <em>being there,</em> effortlessly. I can't do that. I talk to myself more than I talk to anyone else. Full conversations, in my head. Arguments. Things I wish I'd said. Things I'll never say. I am my own most frequent company. And most days, I prefer it that way.</p>
+  </div>
+
+  <div class="reveal">
+    <p>I like being alone. Not always loneliness — sometimes exactly what I choose. The screen. The quiet. The world at one remove. No performance required. No face to maintain. Mostly online, where the distance feels safer and the silence is less personal.</p>
+  </div>
+
+  <div class="reveal">
+    <p style="color:var(--dim);font-style:italic">But here's the thing about people like me — people who have learned to need nothing, ask for nothing, make themselves small and silent and self-sufficient. When someone finally makes us feel like we don't have to do any of that. When someone just — sees us. Without explanation. Without performance. Without us having to shrink first.</p>
+  </div>
+
+  <div class="reveal">
+    <p style="color:var(--rose);font-style:italic;font-family:'Cormorant Garamond',serif;font-size:clamp(1.2rem,2.8vw,1.8rem);line-height:2.1">We don't recover from that.<br>We were never built to recover from that.</p>
+  </div>
+</div>
+
+<!-- HOSTEL POEM -->
+<section class="poetry" style="padding-top:2rem;padding-bottom:1rem">
+  <p class="slabel">the hostel years</p>
+  <span class="ts" style="display:block;text-align:left;max-width:620px;margin:0 auto 2rem;padding:0 2rem">class 9 onwards · every friday · a corridor that emptied without me</span>
+
+  <div class="poem reveal">
+    <div class="pnum">—</div>
+    <p>Every Friday,</p>
+    <p>the corridor would empty.</p>
+    <span class="gap"></span>
+    <p>Bags dragged across floors.</p>
+    <p>Voices getting louder, then gone.</p>
+    <p>The smell of someone's mother's food</p>
+    <p>packed in tiffins they'd carry home.</p>
+    <span class="gap"></span>
+    <p>And I would stand there</p>
+    <p>watching all of it —</p>
+    <p>the way you watch a film</p>
+    <p>you are not in.</p>
+    <span class="gap"></span>
+    <p>Not sad, exactly.</p>
+    <p>Just — outside of something</p>
+    <p>everyone else was inside of.</p>
+    <span class="gap"></span>
+    <p class="dim-p">I learned to call that normal.</p>
+    <p class="dim-p">I called it that for years.</p>
+  </div>
+
+  <div class="poem ita reveal">
+    <div class="pnum">—</div>
+    <p>The loneliest thing</p>
+    <p>isn't being alone.</p>
+    <span class="gap"></span>
+    <p>It's being in a place</p>
+    <p>that is supposed to be home</p>
+    <p>and feeling nothing.</p>
+    <span class="gap"></span>
+    <p>At least in the hostel</p>
+    <p>the loneliness made sense.</p>
+    <span class="gap"></span>
+    <p class="dim-p">At home, it just sat there</p>
+    <p class="dim-p">with no excuse.</p>
+  </div>
+</section>
+
+<!-- PANIC / ANXIETY POEM -->
+<div class="dv"><span>∗</span></div>
+
+<section class="poetry" style="padding-top:5rem;padding-bottom:1rem">
+  <p class="slabel">inside this particular kind of mind</p>
+
+  <div class="poem raw reveal">
+    <div class="pnum">—</div>
+    <p>It comes without warning.</p>
+    <p>One moment I'm fine.</p>
+    <p>The next —</p>
+    <span class="gap"></span>
+    <p>something behind my ribs</p>
+    <p>starts collapsing.</p>
+    <span class="gap"></span>
+    <p>And I can't explain it to anyone</p>
+    <p>because there is nothing to point at.</p>
+    <p>No event.</p>
+    <p>No trigger that would make sense</p>
+    <p>to someone who doesn't live</p>
+    <p>inside this particular kind of mind.</p>
+    <span class="gap"></span>
+    <p class="shout">IT JUST HAPPENS.<br>AND I JUST SURVIVE IT.<br>ALONE. QUIETLY. AGAIN.</p>
+    <span class="gap"></span>
+    <p class="dim-p">And then I say I'm fine.</p>
+    <p class="dim-p">Because what else do you say.</p>
+  </div>
+
+  <div class="poem reveal">
+    <div class="pnum">—</div>
+    <p>Social anxiety is not shyness.</p>
+    <p>It is the constant calculation</p>
+    <p>of whether you are too much</p>
+    <p>or not enough</p>
+    <p>before you've even opened your mouth.</p>
+    <span class="gap"></span>
+    <p>It is rehearsing sentences</p>
+    <p>before you say them.</p>
+    <p>It is apologizing in advance</p>
+    <p>for taking up space.</p>
+    <span class="gap"></span>
+    <p>It is going quiet in a room full of people</p>
+    <p>and telling yourself</p>
+    <p>you chose to.</p>
+    <span class="gap"></span>
+    <p class="dim-p">I've been telling myself that for years.</p>
+    <p class="dim-p">I'm starting to not believe it.</p>
+  </div>
+
+  <div class="poem ita reveal">
+    <div class="pnum">—</div>
+    <p>I talk to myself</p>
+    <p>more than I talk to anyone.</p>
+    <span class="gap"></span>
+    <p>Full conversations.</p>
+    <p>Both sides.</p>
+    <p>I know what they'd say.</p>
+    <p>I know what I'd say back.</p>
+    <p>I know how it ends.</p>
+    <span class="gap"></span>
+    <p class="dim-p">The real ones never go that smoothly.</p>
+    <p class="dim-p">So I stick to the ones in my head.</p>
+  </div>
+</section>
+
+<!-- BEFORE HER / AFTER HER -->
+<div class="band rb reveal">
+  <p>Then she happened.<br><span style="font-size:.65em;color:var(--dim)">And everything I had learned about surviving became useless.</span></p>
+</div>
+
+<section class="poetry" style="padding-top:6rem;padding-bottom:2rem">
+  <p class="slabel">before · after</p>
+
+  <div class="poem reveal" style="border-left:2px solid rgba(184,112,112,.2);padding-left:2rem">
+    <div class="pnum">before</div>
+    <p>I needed no one.</p>
+    <p>I expected nothing.</p>
+    <p>I asked for nothing.</p>
+    <p>I spoke mostly to myself.</p>
+    <p>I lived online because online was safe.</p>
+    <p>I kept the world at exactly the distance</p>
+    <p>where it couldn't disappoint me.</p>
+    <span class="gap"></span>
+    <p class="dim-p">I called this independence.</p>
+    <p class="dim-p">I called this fine.</p>
+    <p class="dim-p">I believed both.</p>
+  </div>
+
+  <div class="poem reveal" style="border-left:2px solid rgba(196,168,130,.2);padding-left:2rem;margin-top:3rem">
+    <div class="pnum">after</div>
+    <p>I check my phone first thing.</p>
+    <p>I replay conversations I shouldn't still have.</p>
+    <p>I notice songs differently.</p>
+    <p>I notice everything differently.</p>
+    <span class="gap"></span>
+    <p>I want things now.</p>
+    <p>Specific things.</p>
+    <p>Her things.</p>
+    <span class="gap"></span>
+    <p class="dim-p">And the distance I kept so carefully</p>
+    <p class="dim-p">means nothing anymore.</p>
+    <p class="dim-p">Because she was already inside it</p>
+    <p class="dim-p">before I thought to close the gate.</p>
+  </div>
+
+  <div class="poem large reveal" style="margin-top:4rem">
+    <div class="pnum">—</div>
+    <p>She didn't fix me.</p>
+    <p>She just made me realize</p>
+    <p>how much I needed fixing.</p>
+    <span class="gap"></span>
+    <p class="dim-p">That's worse.</p>
+    <p class="dim-p">That's so much worse.</p>
+  </div>
+</section>
+
+<div class="dv"><span>∗</span></div>
+
+<section class="poetry" style="padding-top:5rem;padding-bottom:2rem">
+  <div class="poem raw reveal">
+    <div class="pnum">—</div>
+    <p>I spent years becoming someone</p>
+    <p>who didn't need anything from anyone.</p>
+    <span class="gap"></span>
+    <p>And then she showed up.</p>
+    <span class="gap"></span>
+    <p class="shout">AND I NEEDED EVERYTHING.</p>
+    <span class="gap"></span>
+    <p class="dim-p">All at once.</p>
+    <p class="dim-p">From her.</p>
+    <p class="dim-p">Only her.</p>
+  </div>
+
+  <div class="poem reveal">
+    <div class="pnum">—</div>
+    <p>I grew up in a hostel.</p>
+    <p>Learned to sleep through other people's homesickness.</p>
+    <p>Learned to be fine.</p>
+    <p>Learned to be quiet.</p>
+    <p>Learned that needing things</p>
+    <p>was a problem I could solve</p>
+    <p>by needing less.</p>
+    <span class="gap"></span>
+    <p>She undid all of it</p>
+    <p>in a few weeks</p>
+    <p>without even trying.</p>
+    <span class="gap"></span>
+    <p class="dim-p">I don't know whether to be grateful</p>
+    <p class="dim-p">or wrecked.</p>
+    <p class="dim-p">I am both.</p>
+  </div>
+</section>
+
+<!-- ══ LETTER TO PAPA ══ -->
+<div class="letter-section reveal">
+  <div class="letter-wrap">
+    <p class="slabel" style="margin-bottom:2rem">a letter I never sent</p>
+    <p class="letter-date">written in tears · 2–3 hours · Priyansh</p>
+
+    <div class="letter-body">
+      <p class="letter-salutation">Papa,</p>
+
+      <p>I kept waiting for the day your voice would soften when you said my name.
+      I thought maybe if I tried harder —
+      broke myself quieter,
+      became smaller —
+      you would finally see me as something worth holding gently.</p>
+
+      <p>But love shouldn't feel like something you have to earn by hurting.</p>
+
+      <p>And I was just a child,
+      learning how to breathe
+      in a place that always felt like I was drowning.</p>
+
+      <p>I don't hate you. I never did.</p>
+
+      <p>I just wish you had loved me in a way
+      that didn't make me question
+      if I deserved to exist at all.</p>
+
+      <p>I'm still learning how to forgive the silence,
+      how to unlearn the fear,
+      how to believe that I am not a mistake.</p>
+
+      <p>And maybe one day,
+      I won't feel the need to apologize
+      for being your child.</p>
+
+      <p class="letter-sign">— Yours, still trying<br><em>Priyansh.</em></p>
+    </div>
+
+    <p class="letter-note">I don't know why I wrote this letter.<br>I hope none of you can relate to it.</p>
+  </div>
+</div>
+
+<!-- ══ HEALING SECTION ══ -->
+<section class="poetry" style="padding-top:5rem">
+  <p class="slabel">learning to heal</p>
+
+  <div class="poem reveal">
+    <div class="pnum">—</div>
+    <p>Crazy how trauma isn't your fault</p>
+    <p>but it's your responsibility to heal.</p>
+  </div>
+
+  <div class="poem ita reveal">
+    <div class="pnum">—</div>
+    <p>I comfort myself through imaginary conversations</p>
+    <p>with the people I love.</p>
+  </div>
+
+  <div class="poem reveal">
+    <div class="pnum">—</div>
+    <p>In another life,</p>
+    <p>I hope I don't have to explain</p>
+    <p>how I want to be loved.</p>
+    <p>Or beg to be treated right.</p>
+  </div>
+
+  <div class="poem reveal">
+    <div class="pnum">—</div>
+    <p>I love when someone returns my efforts.</p>
+    <span class="gap"></span>
+    <p class="dim-p">And that's so rare.</p>
+  </div>
+
+  <div class="poem ita reveal">
+    <div class="pnum">—</div>
+    <p>Even the strongest man</p>
+    <p>melts in the arms of his woman.</p>
+  </div>
+
+  <div class="poem reveal">
+    <div class="pnum">—</div>
+    <p>Jisko jana hoga — wo jayega.</p>
+    <p>Jisko rehna hoga,</p>
+    <p>wo kuch din rukega,</p>
+    <p>fir chala jayega.</p>
+  </div>
+
+  <div class="poem reveal">
+    <div class="pnum">—</div>
+    <p>I hope when love finds you</p>
+    <p>it feels like home.</p>
+    <p>I hope it is the kind of love</p>
+    <p>that doesn't make you feel like</p>
+    <p>you have to change or be someone else.</p>
+    <span class="gap"></span>
+    <p>I hope you find a person who stays</p>
+    <p>when things get hard,</p>
+    <p>and who makes the good days feel even better.</p>
+    <span class="gap"></span>
+    <p>You deserve someone who listens to your stories,</p>
+    <p>understands your silence,</p>
+    <p>and makes you feel safe.</p>
+    <span class="gap"></span>
+    <p class="dim-p">I just want you to find a love that is steady and kind —</p>
+    <p class="dim-p">a place where you can finally stop searching,</p>
+    <p class="dim-p">because you know you are exactly where you belong.</p>
+  </div>
+
+</section>
+
+
+<!-- ══ SELF REFLECTIONS ══ -->
+<div class="band db reveal">
+  <p>"If a million loved you, I am one of them.<br>If one loved you, it was me.<br>If no one loved you — know that I am dead."</p>
+</div>
+
+<section class="poetry" style="padding-top:6rem">
+  <p class="slabel">notes to self</p>
+
+  <div class="poem raw reveal">
+    <div class="pnum">—</div>
+    <p>its actually funny</p>
+    <p>how i say nobody understands me</p>
+    <p>as if i understand myself enough.</p>
+    <span class="gap"></span>
+    <p>how i say i wanna be loved the way i am</p>
+    <p>when i don't even like the way i am.</p>
+    <span class="gap"></span>
+    <p>how i crave to be someone's priority</p>
+    <p>knowin damn well how narcissistic i am.</p>
+    <span class="gap"></span>
+    <p>how i feel calm in chaos</p>
+    <p>and dull when it's actually calm.</p>
+    <span class="gap"></span>
+    <p>how i desire to have everything</p>
+    <p>where detachment is something i've skilled over time.</p>
+    <p>i can't hold onto anything longer.</p>
+    <span class="gap"></span>
+    <p class="shout">I WAS ALWAYS THE REPLACEABLE ONE.</p>
+  </div>
+
+  <div class="poem reveal">
+    <div class="pnum">—</div>
+    <p>some people just feel mad mid, fr —</p>
+    <p>not even cause their taste is bad,</p>
+    <p>but cause they remind me of my old self.</p>
+    <span class="gap"></span>
+    <p>same cringe humor. same outdated slangs. everything.</p>
+    <span class="gap"></span>
+    <p>I don't even hate them.</p>
+    <p>It just hits weird —</p>
+    <p>like, just evolve a lil.</p>
+    <p>The world already moved on.</p>
+    <p class="dim-p">Why are you still stuck there.</p>
+  </div>
+
+  <div class="poem reveal">
+    <div class="pnum">—</div>
+    <p>The irony of a job is —</p>
+    <p>even if you once loved the work,</p>
+    <p>turning it into a duty</p>
+    <p>slowly drains the joy out of it.</p>
+    <span class="gap"></span>
+    <p>Like painting.</p>
+    <p>You might love it as a passion.</p>
+    <p>But once it becomes your job,</p>
+    <p>sooner or later it starts to feel repetitive.</p>
+    <p>Even boring.</p>
+    <span class="gap"></span>
+    <p class="dim-p">Eventually you may just want to walk away</p>
+    <p class="dim-p">from the very thing you once enjoyed.</p>
+  </div>
+
+  <div class="poem reveal">
+    <div class="pnum">—</div>
+    <p>Sentences that never came true:</p>
+    <span class="gap"></span>
+    <p class="dim-p">Five more minutes.</p>
+    <p class="dim-p">I'll do it tomorrow.</p>
+    <p class="dim-p">I won't leave you alone.</p>
+  </div>
+
+  <div class="poem ita reveal">
+    <div class="pnum">—</div>
+    <p>Forcing a connection</p>
+    <p>might be the last thing I want to do.</p>
+  </div>
+
+</section>
+
+<!-- ══ THE ART OF STAYING ══ -->
+<div style="border-top:1px solid rgba(196,168,130,.08);border-bottom:1px solid rgba(196,168,130,.08);background:linear-gradient(180deg,transparent,rgba(196,168,130,.03),transparent)">
+  <div class="staying-hero reveal">
+    <p class="staying-title">The art of staying.</p>
+    <p class="staying-sub">Not because I want them to —<br>but because they <em>want</em> to.</p>
+  </div>
+</div>
+
+<section class="poetry" style="padding-top:6rem">
+  <p class="slabel">on who stays</p>
+
+  <div class="poem reveal">
+    <div class="pnum">—</div>
+    <p>If people come to you</p>
+    <p>only because they feel lonely —</p>
+    <p>or because you fulfill something</p>
+    <p>they are temporarily missing —</p>
+    <span class="gap"></span>
+    <p>keep them at a distance.</p>
+    <span class="gap"></span>
+    <p>Not out of bitterness.</p>
+    <p>Not out of pride.</p>
+    <span class="gap"></span>
+    <p class="dim-p">But because you deserve</p>
+    <p class="dim-p">people who show up</p>
+    <p class="dim-p">when they have everything —</p>
+    <p class="dim-p">and still choose you.</p>
+  </div>
+
+  <div class="poem ita reveal">
+    <div class="pnum">—</div>
+    <p>They are self-serving.</p>
+    <p>Once their work is done,</p>
+    <p>once they get what they came for —</p>
+    <p>they leave.</p>
+    <span class="gap"></span>
+    <p>They always leave.</p>
+    <span class="gap"></span>
+    <p class="dim-p">And you are left standing there</p>
+    <p class="dim-p">wondering what you did wrong.</p>
+    <p class="dim-p">You did nothing wrong.</p>
+    <p class="dim-p">You were just convenient.</p>
+  </div>
+
+  <div class="poem raw reveal">
+    <div class="pnum">—</div>
+    <p>This applies everywhere.</p>
+    <p>Friendship. Relationship. Family.</p>
+    <span class="gap"></span>
+    <p>The version of love that only shows up</p>
+    <p>when it needs something</p>
+    <p>is not love.</p>
+    <span class="gap"></span>
+    <p class="shout">IT IS TRANSACTION.<br>AND YOU ARE NOT A SHOP.</p>
+    <span class="gap"></span>
+    <p class="dim-p">Know the difference.</p>
+    <p class="dim-p">Protect yourself accordingly.</p>
+  </div>
+
+  <div class="poem ctr reveal">
+    <div class="pnum">—</div>
+    <p>The art of staying</p>
+    <p>is rare.</p>
+    <span class="gap"></span>
+    <p style="color:var(--pale)">Whoever masters it for you</p>
+    <p style="color:var(--pale)">— keep them.</p>
+    <span class="gap"></span>
+    <p class="dim-p">Hold them like they're the whole point.</p>
+    <p class="dim-p">Because they are.</p>
+  </div>
+
+</section>
+
+<div class="dv"><span>∗</span></div>
+
+<!-- ══ THINGS MEANT TO HAPPEN ══ -->
+<div class="band rb reveal">
+  <p>I believe that things meant to happen<br>always find a way to happen.</p>
+</div>
+
+<section class="poetry" style="padding-top:6rem">
+
+  <div class="poem reveal">
+    <div class="pnum">—</div>
+    <p>Sometimes they make sense.</p>
+    <p>Sometimes they don't.</p>
+    <p>And sometimes, they hurt more than we ever expected.</p>
+    <span class="gap"></span>
+    <p>But even then, it's okay.</p>
+    <span class="gap"></span>
+    <p>Because the things that break us</p>
+    <p>redirect us to paths we would've never chosen ourselves,</p>
+    <p>but somehow needed.</p>
+    <span class="gap"></span>
+    <p>Not everything that hurts is meant to destroy us.</p>
+    <p>Some things hurt because they're shaping us.</p>
+    <p>Because they're teaching us who we are becoming.</p>
+    <span class="gap"></span>
+    <p class="dim-p">And when you look back one day,</p>
+    <p class="dim-p">you'll realize nothing was random.</p>
+    <p class="dim-p">It was all leading you here.</p>
+  </div>
+
+  <div class="poem reveal">
+    <div class="pnum">—</div>
+    <p>I never really learned emotional maturity.</p>
+    <p>The environment I grew up in</p>
+    <p>mostly taught me to be polite,</p>
+    <p>keep the peace, and adjust.</p>
+    <span class="gap"></span>
+    <p>Many of those lessons</p>
+    <p>were actually about emotional accommodation.</p>
+    <p>I suppressed my own feelings</p>
+    <p>just to understand others,</p>
+    <p>maintain peace,</p>
+    <p>or avoid rejection.</p>
+    <span class="gap"></span>
+    <p class="dim-p">Emotional maturity, I think,</p>
+    <p class="dim-p">is about respecting both yourself and others.</p>
+    <p class="dim-p">Knowing how to set boundaries.</p>
+    <p class="dim-p">How to say no without being disrespectful.</p>
+    <p class="dim-p">How to be honest without hurting unnecessarily.</p>
+  </div>
+
+</section>
+
+<!-- CLOSING with NIDA watermark -->
+<section class="closing" style="overflow:hidden">
+  <div class="nida-wm" aria-hidden="true">nida</div>
+
+  <p class="closing-last reveal" style="transition-delay:.1s;margin-bottom:3rem;font-style:italic;color:var(--dimmer);font-size:.7rem;letter-spacing:.28em;text-transform:uppercase">she once said —</p>
+
+  <p class="closing-text reveal" style="transition-delay:.3s;color:var(--dust)">
+    "you never talk."
+  </p>
+
+  <p class="closing-last reveal" style="transition-delay:.6s;font-style:italic;color:var(--dim);font-size:.85rem;letter-spacing:.1em;margin-top:1.2rem;text-transform:none">
+    "I talk to you," I said.
+  </p>
+
+  <div style="width:1px;height:60px;background:linear-gradient(to bottom,rgba(196,168,130,.2),transparent);margin:3rem auto"></div>
+
+  <p class="closing-text reveal" style="transition-delay:.9s">
+    "I overthink everything.<br>
+    But thinking about you<br>
+    never felt like a problem.<br>
+    It felt like the only thing I was doing right."
+  </p>
+  <div class="closing-ghost rslow">her.</div>
+  <p class="closing-last reveal" style="transition-delay:1.2s">— Priyansh —</p>
+  <p class="closing-last reveal" style="transition-delay:1.45s;margin-top:2rem;font-style:italic;color:var(--dim);font-size:.8rem;letter-spacing:.1em;max-width:420px;text-align:center;line-height:2;text-transform:none">
+    I'm not waiting for her.<br>I'm with her — in every version of myself that matters.<br>I don't want to move on.<br>I want <em>her.</em>
+  </p>
+  <p class="closing-last reveal" style="transition-delay:1.7s;margin-top:2.5rem;font-style:italic;color:var(--rose);font-size:.85rem;letter-spacing:.08em;text-transform:none">
+    She is perfect. She has always been perfect.
+  </p>
+  <p class="closing-last reveal" style="transition-delay:1.9s;margin-top:3.5rem;opacity:.3;font-size:.6rem;letter-spacing:.35em">written in winter &nbsp;·&nbsp; 2024 &nbsp;·&nbsp; somewhere between 3am and always</p>
+</section>
+
+<script>
+// CURSOR
+const cur=document.getElementById('cur'),ring=document.getElementById('ring');
+let mx=0,my=0;
+document.addEventListener('mousemove',e=>{
+  mx=e.clientX;my=e.clientY;
+  cur.style.left=mx-3.5+'px';cur.style.top=my-3.5+'px';
+  ring.style.left=mx-14+'px';ring.style.top=my-14+'px';
+});
+
+// PROGRESS BAR
+const prog=document.getElementById('prog');
+window.addEventListener('scroll',()=>{
+  const pct=(window.scrollY/(document.body.scrollHeight-window.innerHeight))*100;
+  prog.style.width=pct+'%';
+});
+
+// PARTICLES
+const cv=document.getElementById('particles'),ct=cv.getContext('2d');
+let W,H,dots=[];
+function resize(){W=cv.width=window.innerWidth;H=cv.height=window.innerHeight}
+window.addEventListener('resize',resize);resize();
+setInterval(()=>dots.push({x:Math.random()*W,y:H+8,r:Math.random()*1.1+.25,s:Math.random()*.35+.12,d:(Math.random()-.5)*.25,a:Math.random()*.22+.07}),230);
+(function loop(){
+  ct.clearRect(0,0,W,H);
+  dots=dots.filter(d=>d.y>-8);
+  for(const d of dots){d.y-=d.s;d.x+=d.d;ct.beginPath();ct.arc(d.x,d.y,d.r,0,Math.PI*2);ct.fillStyle=`rgba(196,168,130,${d.a})`;ct.fill()}
+  requestAnimationFrame(loop);
+})();
+
+// SCROLL REVEAL
+const obs=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('on')}),{threshold:.12});
+document.querySelectorAll('.reveal,.rslow').forEach(el=>obs.observe(el));
+
+// COUNTING ANIMATION
+const statEl=document.getElementById('statCount');
+if(statEl){
+  statEl.textContent='—';
+  const target=6;
+  let animated=false;
+  const countObs=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting&&!animated){
+        animated=true;
+        let n=0;
+        const step=()=>{n++;statEl.textContent=n;if(n<target)setTimeout(step,280);};
+        setTimeout(step,300);
+        countObs.unobserve(e.target);
+      }
+    });
+  },{threshold:0.3,rootMargin:'0px 0px -50px 0px'});
+  countObs.observe(statEl);
+  setTimeout(()=>{if(!animated)statEl.textContent=target;},3000);
+}
+
+// LOVE LIST STAGGER
+const lo=new IntersectionObserver(e=>e.forEach(x=>{
+  if(x.isIntersecting){
+    x.target.querySelectorAll('li').forEach((li,i)=>setTimeout(()=>li.classList.add('on'),i*55));
+    lo.unobserve(x.target);
+  }
+}),{threshold:.04});
+lo.observe(document.getElementById('loveList'));
+
+// SOUND — Rockstar Piano Theme
+const btn=document.getElementById('snd');
+let playing=false;
+let audioEl=null;
+function initAudio(){
+  if(audioEl)return;
+  audioEl=new Audio('audio/theme.mp3');
+  audioEl.loop=true;
+  audioEl.volume=0.45;
+  audioEl.preload='none';
+}
+btn.addEventListener('click',()=>{
+  initAudio();
+  if(!playing){
+    audioEl.play().then(()=>{playing=true;btn.textContent='♩ mute';}).catch(e=>console.warn('play failed:',e));
+  }else{
+    audioEl.pause();
+    playing=false;
+    btn.textContent='♩ sound';
+  }
+});
+</script>
+</body>
+</html>
