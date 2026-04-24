@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>her.</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Noto+Serif+Devanagari:wght@300;400&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
@@ -110,7 +111,9 @@ section,.band,.raw-s,.hindi-s,.photo-s,.dv{position:relative;z-index:2}
 /* BREATHING */
 @keyframes breathe{0%,100%{opacity:.15;-webkit-text-stroke-color:rgba(196,123,123,.15)}50%{opacity:.4;-webkit-text-stroke-color:rgba(196,123,123,.38)}}
 .closing-ghost{animation:breathe 4.5s ease-in-out infinite!important}
-.rslow.on{opacity:1!important}
+
+/* ATTRIBUTION */
+.attr{font-size:.75em;letter-spacing:.18em;color:var(--dim);font-style:italic;margin-top:.8rem;display:block}
 
 /* SOUND */
 #snd{position:fixed;bottom:2rem;right:2rem;z-index:9994;background:none;border:1px solid rgba(196,168,130,.18);color:var(--dim);font-family:'EB Garamond',serif;font-size:.72rem;font-style:italic;letter-spacing:.2em;padding:.55rem 1rem;cursor:none;-webkit-tap-highlight-color:transparent;transition:border-color .4s,color .4s}
@@ -167,11 +170,21 @@ section,.band,.raw-s,.hindi-s,.photo-s,.dv{position:relative;z-index:2}
 </head>
 <body>
 
+<noscript>
+  <style>
+    .reveal,.rslow{opacity:1!important;transform:none!important}
+    .hero-eye,.hero-title,.hero-vline,.hero-sub,.scroll-h{opacity:1!important;animation:none!important}
+    .love-list li{opacity:1!important;transform:none!important}
+    #prog,#cur,.cur-r,#snd,#particles{display:none}
+    body{cursor:auto}
+  </style>
+</noscript>
+
 <div id="prog"></div>
 <div class="cur" id="cur"></div>
 <div class="cur-r" id="ring"></div>
-<canvas id="particles"></canvas>
-<button id="snd">&#9833; sound</button>
+<canvas id="particles" aria-hidden="true"></canvas>
+<button id="snd" aria-label="Toggle background music">&#9833; sound</button>
 
 <!-- HERO -->
 <section class="hero">
@@ -179,7 +192,7 @@ section,.band,.raw-s,.hindi-s,.photo-s,.dv{position:relative;z-index:2}
   <h1 class="hero-title">her<em>always. only. her.</em></h1>
   <div class="hero-vline"></div>
   <p class="hero-sub">"uski ho vo hasi, gunje jo mera ghar"<span>— a game, a name, and no going back —</span></p>
-  <div class="scroll-h">scroll</div>
+  <div class="scroll-h" aria-hidden="true">scroll</div>
 </section>
 
 <!-- BAND 1 -->
@@ -2176,28 +2189,44 @@ section,.band,.raw-s,.hindi-s,.photo-s,.dv{position:relative;z-index:2}
 </section>
 
 <script>
-// CURSOR
+// CURSOR — only on pointer devices (not touch)
 const cur=document.getElementById('cur'),ring=document.getElementById('ring');
-let mx=0,my=0;
-document.addEventListener('mousemove',e=>{
-  mx=e.clientX;my=e.clientY;
-  cur.style.left=mx-3.5+'px';cur.style.top=my-3.5+'px';
-  ring.style.left=mx-14+'px';ring.style.top=my-14+'px';
-});
+if(window.matchMedia('(pointer: fine)').matches){
+  let mx=0,my=0;
+  document.addEventListener('mousemove',e=>{
+    mx=e.clientX;my=e.clientY;
+    cur.style.left=mx-3.5+'px';cur.style.top=my-3.5+'px';
+    ring.style.left=mx-14+'px';ring.style.top=my-14+'px';
+  });
+}else{
+  document.body.style.cursor='auto';
+  cur.style.display='none';
+  ring.style.display='none';
+}
 
 // PROGRESS BAR
 const prog=document.getElementById('prog');
 window.addEventListener('scroll',()=>{
-  const pct=(window.scrollY/(document.body.scrollHeight-window.innerHeight))*100;
+  const scrollable=document.body.scrollHeight-window.innerHeight;
+  const pct=scrollable>0?(window.scrollY/scrollable)*100:0;
   prog.style.width=pct+'%';
 });
 
 // PARTICLES
 const cv=document.getElementById('particles'),ct=cv.getContext('2d');
 let W,H,dots=[];
-function resize(){W=cv.width=window.innerWidth;H=cv.height=window.innerHeight}
+function resize(){
+  const dpr=window.devicePixelRatio||1;
+  W=window.innerWidth;H=window.innerHeight;
+  cv.width=W*dpr;cv.height=H*dpr;
+  cv.style.width=W+'px';cv.style.height=H+'px';
+  ct.scale(dpr,dpr);
+}
 window.addEventListener('resize',resize);resize();
-setInterval(()=>dots.push({x:Math.random()*W,y:H+8,r:Math.random()*1.1+.25,s:Math.random()*.35+.12,d:(Math.random()-.5)*.25,a:Math.random()*.22+.07}),230);
+const particleInterval=setInterval(()=>{
+  if(!document.hidden)
+    dots.push({x:Math.random()*W,y:H+8,r:Math.random()*1.1+.25,s:Math.random()*.35+.12,d:(Math.random()-.5)*.25,a:Math.random()*.22+.07});
+},230);
 (function loop(){
   ct.clearRect(0,0,W,H);
   dots=dots.filter(d=>d.y>-8);
@@ -2231,13 +2260,16 @@ if(statEl){
 }
 
 // LOVE LIST STAGGER
-const lo=new IntersectionObserver(e=>e.forEach(x=>{
-  if(x.isIntersecting){
-    x.target.querySelectorAll('li').forEach((li,i)=>setTimeout(()=>li.classList.add('on'),i*55));
-    lo.unobserve(x.target);
-  }
-}),{threshold:.04});
-lo.observe(document.getElementById('loveList'));
+const loveListEl=document.getElementById('loveList');
+if(loveListEl){
+  const lo=new IntersectionObserver(e=>e.forEach(x=>{
+    if(x.isIntersecting){
+      x.target.querySelectorAll('li').forEach((li,i)=>setTimeout(()=>li.classList.add('on'),i*55));
+      lo.unobserve(x.target);
+    }
+  }),{threshold:.04});
+  lo.observe(loveListEl);
+}
 
 // SOUND — Rockstar Piano Theme
 const btn=document.getElementById('snd');
@@ -2249,15 +2281,21 @@ function initAudio(){
   audioEl.loop=true;
   audioEl.volume=0.45;
   audioEl.preload='none';
+  audioEl.onerror=()=>{btn.style.display='none';console.warn('Audio file not found.');};
 }
 btn.addEventListener('click',()=>{
   initAudio();
   if(!playing){
-    audioEl.play().then(()=>{playing=true;btn.textContent='♩ mute';}).catch(e=>console.warn('play failed:',e));
+    audioEl.play().then(()=>{
+      playing=true;
+      btn.textContent='♩ mute';
+      btn.setAttribute('aria-label','Mute background music');
+    }).catch(e=>console.warn('play failed:',e));
   }else{
     audioEl.pause();
     playing=false;
     btn.textContent='♩ sound';
+    btn.setAttribute('aria-label','Play background music');
   }
 });
 </script>
